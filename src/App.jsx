@@ -1,8 +1,8 @@
 import './App.css';
-import HomePage from './pages/Dangtintuyendung/Dangtintuyendung';
+import Timkiemcongviec from './pages/Timkiemcongviec/Timkiemcongviec';
 
 function App() {
-  return <HomePage />;
+  return <Timkiemcongviec />;
 }
 
 export default App;
