@@ -1,3 +1,5 @@
+import './Dangtintuyendung.css';
+
 const overviewStats = [
   { value: '12', label: 'vị trí có thể tạo trong một quy trình', note: 'Tối ưu cho team tuyển dụng' },
   { value: '3 phút', label: 'để hoàn thiện bản nháp đầu tiên', note: 'Tập trung vào phần cốt lõi' },
