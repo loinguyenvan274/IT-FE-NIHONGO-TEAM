@@ -1,292 +1,203 @@
+import { useState } from 'react';
 import './Dangtintuyendung.css';
 
-const overviewStats = [
-  { value: '12', label: 'vị trí có thể tạo trong một quy trình', note: 'Tối ưu cho team tuyển dụng' },
-  { value: '3 phút', label: 'để hoàn thiện bản nháp đầu tiên', note: 'Tập trung vào phần cốt lõi' },
-  { value: '100%', label: 'nội dung bằng tiếng Việt', note: 'Dễ bàn giao cho người mới' },
-];
+const requirementTags = ['ReactJS', 'HTML/CSS', 'REST API'];
 
-const steps = [
-  'Thông tin cơ bản',
-  'Mô tả công việc',
-  'Yêu cầu ứng viên',
-  'Quyền lợi & địa điểm',
-];
+const benefitTags = ['Lương cạnh tranh', 'Thưởng hiệu suất', 'Linh hoạt', 'Bảo hiểm'];
 
-const skills = ['ReactJS', 'TypeScript', 'UI/UX', 'API'];
+const statusOptions = ['Nháp', 'Đăng'];
 
-const benefits = ['Lương cạnh tranh', 'Làm việc linh hoạt', 'Đào tạo nội bộ', 'Bảo hiểm đầy đủ'];
-
-function SectionTitle({ index, title, subtitle }) {
+function SectionTitle({ index, title }) {
   return (
-    <div className="section-heading">
-      <div className="section-index">0{index}</div>
-      <div>
-        <h2>{title}</h2>
-        <p>{subtitle}</p>
-      </div>
+    <div className="post-section-title">
+      <div className="post-section-index">{index}</div>
+      <h2>{title}</h2>
     </div>
   );
 }
 
-function HomePage() {
+function Field({ label, children, wide = false }) {
   return (
-    <div className="app-shell">
-      <div className="ambient ambient-left" />
-      <div className="ambient ambient-right" />
+    <label className={`post-field${wide ? ' post-field-wide' : ''}`}>
+      <span>{label}</span>
+      {children}
+    </label>
+  );
+}
 
-      <header className="topbar">
-        <div className="brand-block">
-          <div className="brand-mark">IT</div>
-          <div>
-            <strong>IT-FE</strong>
-            <span>Dự án ReactJS khởi tạo</span>
-          </div>
-        </div>
+function Dangtintuyendung() {
+  const [skills, setSkills] = useState(requirementTags);
 
-        <nav className="topnav" aria-label="Điều hướng chính">
-          <a className="topnav-link is-active" href="#tong-quan">
-            Tổng quan
-          </a>
-          <a className="topnav-link" href="#noi-dung">
-            Nội dung
-          </a>
-          <a className="topnav-link" href="#xac-nhan">
-            Xác nhận
-          </a>
-        </nav>
+  const addSkill = () => {
+    setSkills((currentSkills) => [...currentSkills, '']);
+  };
 
-        <a className="ghost-link" href="#huong-dan">
-          Xem hướng dẫn
-        </a>
-      </header>
+  const updateSkill = (index, value) => {
+    setSkills((currentSkills) => currentSkills.map((skill, skillIndex) => (skillIndex === index ? value : skill)));
+  };
 
-      <main className="page">
-        <section className="hero-card" id="tong-quan">
-          <div className="hero-copy">
-            <p className="eyebrow">Bản mặc định cho dự án</p>
-            <h1>Đăng tin tuyển dụng rõ ràng, tinh gọn và đồng bộ màu sắc</h1>
-            <p className="hero-text">
-              Giao diện ban đầu này được dựng để người khác có thể mở lên, chỉnh sửa và chạy ngay.
-              Nội dung được viết hoàn toàn bằng tiếng Việt, còn màu sắc và cảm giác thị giác tuân
-              theo bộ biến trong <strong>global.css</strong>.
-            </p>
+  return (
+    <main className="recruit-post-page">
+      <div className="recruit-post-shell">
+        <header className="page-title-block">
+          <h1>Đăng tin tuyển dụng</h1>
+        </header>
 
-            <div className="hero-actions">
-              <button className="btn btn-primary" type="button">
-                Tạo tin mới
-              </button>
-              <button className="btn btn-secondary" type="button">
-                Lưu bản nháp
-              </button>
-            </div>
-
-            <div className="mini-pills" aria-label="Thông tin nhanh">
-              <span>ReactJS</span>
-              <span>Vite</span>
-              <span>Tiếng Việt</span>
-            </div>
-          </div>
-
-          <aside className="hero-summary" id="xac-nhan">
-            <p className="summary-label">Trạng thái</p>
-            <h3>Đã sẵn sàng cho bước nhập nội dung</h3>
-
-            <div className="summary-panel">
-              <div>
-                <span>Ngôn ngữ</span>
-                <strong>Tiếng Việt</strong>
-              </div>
-              <div>
-                <span>Giao diện</span>
-                <strong>Trang mặc định</strong>
-              </div>
-              <div>
-                <span>Palette</span>
-                <strong>global.css</strong>
-              </div>
-            </div>
-
-            <div className="summary-progress">
-              <div className="summary-progress-bar" />
-            </div>
-            <p className="summary-note">Hoàn thiện 25% cấu trúc mẫu ban đầu.</p>
-          </aside>
-        </section>
-
-        <section className="stats-grid" aria-label="Chỉ số tổng quan">
-          {overviewStats.map((stat) => (
-            <article className="stat-card" key={stat.label}>
-              <strong>{stat.value}</strong>
-              <span>{stat.label}</span>
-              <p>{stat.note}</p>
-            </article>
-          ))}
-        </section>
-
-        <section className="content-grid" id="noi-dung">
-          <div className="content-column">
-            <article className="section-card">
-              <SectionTitle
-                index={1}
-                title="Thông tin cơ bản"
-                subtitle="Những dữ liệu nền tảng để tạo một bài đăng tuyển dụng rõ ràng ngay từ đầu."
-              />
-
-              <div className="form-grid">
-                <label className="field">
-                  <span>Tiêu đề vị trí</span>
+        <form className="recruit-form">
+          <section className="recruit-section">
+            <SectionTitle index={1} title="Thông tin cơ bản công việc" />
+            <div className="form-stack">
+              <div className="form-grid form-grid-two">
+                <Field label="Tiêu đề công việc">
                   <input type="text" defaultValue="ReactJS Front-end Developer" />
-                </label>
-
-                <label className="field">
-                  <span>Phòng ban</span>
-                  <select defaultValue="product">
-                    <option value="product">Sản phẩm</option>
-                    <option value="design">Thiết kế</option>
-                    <option value="engineering">Kỹ thuật</option>
-                  </select>
-                </label>
-
-                <label className="field">
-                  <span>Cấp bậc</span>
-                  <div className="segmented-control" role="group" aria-label="Cấp bậc vị trí">
-                    <button className="segment" type="button">
-                      Junior
-                    </button>
-                    <button className="segment is-active" type="button">
-                      Middle
-                    </button>
-                    <button className="segment" type="button">
-                      Senior
-                    </button>
-                  </div>
-                </label>
-
-                <label className="field">
-                  <span>Số lượng tuyển</span>
+                </Field>
+                <Field label="Phòng ban">
+                  <input type="text" defaultValue="Sản phẩm" />
+                </Field>
+                <Field label="Chức danh">
+                  <input type="text" defaultValue="Front-end Developer" />
+                </Field>
+                <Field label="Số lượng tuyển">
                   <input type="number" defaultValue={2} min="1" />
-                </label>
+                </Field>
               </div>
-            </article>
-
-            <article className="section-card">
-              <SectionTitle
-                index={2}
-                title="Mô tả công việc"
-                subtitle="Viết ngắn gọn, nhấn vào tác động của vị trí thay vì liệt kê quá nhiều gạch đầu dòng."
-              />
-
-              <label className="field">
-                <span>Mô tả ngắn</span>
-                <textarea
-                  rows="4"
-                  defaultValue="Bạn sẽ tham gia xây dựng giao diện React cho sản phẩm nội bộ, phối hợp chặt với design và backend để hoàn thiện trải nghiệm người dùng."
-                />
-              </label>
-
-              <div className="info-panel">
-                <div>
-                  <strong>Trọng tâm</strong>
-                  <p>Rõ vai trò, rõ kỳ vọng, dễ đọc trên di động.</p>
-                </div>
-                <div>
-                  <strong>Giọng văn</strong>
-                  <p>Chuyên nghiệp, ngắn gọn, dùng tiếng Việt tự nhiên.</p>
-                </div>
-              </div>
-            </article>
-
-            <article className="section-card">
-              <SectionTitle
-                index={3}
-                title="Yêu cầu và quyền lợi"
-                subtitle="Cân bằng giữa điều kiện tuyển dụng và lý do để ứng viên muốn ứng tuyển."
-              />
-
-              <div className="dual-list">
-                <div>
-                  <h3>Kỹ năng cần có</h3>
-                  <div className="chip-list">
-                    {skills.map((skill) => (
-                      <span className="chip" key={skill}>
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3>Quyền lợi nổi bật</h3>
-                  <ul className="bullet-list">
-                    {benefits.map((benefit) => (
-                      <li key={benefit}>{benefit}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </article>
-
-            <article className="section-card">
-              <SectionTitle
-                index={4}
-                title="Địa điểm và lịch làm việc"
-                subtitle="Phần cuối cùng để ứng viên biết ngay môi trường và nhịp làm việc của công ty."
-              />
-
-              <div className="form-grid form-grid-2">
-                <label className="field">
-                  <span>Khu vực</span>
-                  <input type="text" defaultValue="TP. Hồ Chí Minh" />
-                </label>
-
-                <label className="field">
-                  <span>Hình thức</span>
-                  <select defaultValue="hybrid">
-                    <option value="onsite">Làm tại văn phòng</option>
-                    <option value="hybrid">Hybrid</option>
-                    <option value="remote">Từ xa</option>
-                  </select>
-                </label>
-              </div>
-
-              <div className="schedule-card">
-                <div>
-                  <span>Thời gian làm việc</span>
-                  <strong>09:00 - 18:00, Thứ 2 đến Thứ 6</strong>
-                </div>
-                <div>
-                  <span>Chính sách</span>
-                  <strong>Linh hoạt 2 ngày làm việc từ xa mỗi tháng</strong>
-                </div>
-              </div>
-            </article>
-          </div>
-
-          <aside className="sidebar-card" id="huong-dan">
-            <p className="summary-label">Hướng dẫn</p>
-            <h3>Cách dùng dự án ngay từ đầu</h3>
-            <ol className="steps-list">
-              {steps.map((step, index) => (
-                <li key={step}>
-                  <span>{index + 1}</span>
-                  <p>{step}</p>
-                </li>
-              ))}
-            </ol>
-
-            <div className="sidebar-footer">
-              <strong>Gợi ý</strong>
-              <p>
-                Nếu muốn đổi màu trang, chỉ cần thay biến trong <strong>global.css</strong> mà không
-                cần sửa toàn bộ component.
-              </p>
             </div>
-          </aside>
-        </section>
-      </main>
-    </div>
+          </section>
+
+          <section className="recruit-section">
+            <SectionTitle index={2} title="Mô tả công việc" />
+            <div className="form-stack">
+              <Field label="Mô tả công việc" wide>
+                <textarea
+                  rows="3"
+                  defaultValue="Xây dựng giao diện React cho sản phẩm nội bộ, phối hợp với design và backend để hoàn thiện trải nghiệm người dùng."
+                />
+              </Field>
+              <Field label="Nhiệm vụ chính" wide>
+                <textarea
+                  rows="2"
+                  defaultValue="Phát triển tính năng mới, tối ưu giao diện, xử lý dữ liệu từ API và đảm bảo chất lượng hiển thị trên nhiều thiết bị."
+                />
+              </Field>
+            </div>
+          </section>
+
+          <section className="recruit-section">
+            <SectionTitle index={3} title="Yêu cầu ứng viên" />
+            <div className="form-stack">
+              <div className="skills-panel">
+                <div className="inline-chips" aria-label="Các kỹ năng cần có">
+                  {skills.map((skill, index) => (
+                    <input
+                      key={`skill-${index}`}
+                      type="text"
+                      value={skill}
+                      onChange={(event) => updateSkill(index, event.target.value)}
+                      aria-label={`Kỹ năng ${index + 1}`}
+                      placeholder="Nhập kỹ năng"
+                    />
+                  ))}
+                </div>
+                <button className="skill-add-button" type="button" onClick={addSkill}>
+                  <span aria-hidden="true">+</span>
+                  <span>Thêm kỹ năng</span>
+                </button>
+              </div>
+              <Field label="Yêu cầu khác" wide>
+                <input type="text" defaultValue="Ưu tiên ứng viên có kinh nghiệm làm việc với sản phẩm nội bộ." />
+              </Field>
+            </div>
+          </section>
+
+          <section className="recruit-section">
+            <SectionTitle index={4} title="Quyền lợi & chế độ" />
+            <div className="form-stack">
+              <div className="form-grid form-grid-two">
+                <Field label="Mức lương">
+                  <input type="text" defaultValue="Thoả thuận" />
+                </Field>
+                <Field label="Thưởng / Phụ cấp">
+                  <input type="text" defaultValue="Thưởng theo dự án" />
+                </Field>
+                <Field label="Chế độ khác" wide>
+                  <input type="text" defaultValue="Đào tạo nội bộ, bảo hiểm đầy đủ, review định kỳ." />
+                </Field>
+              </div>
+
+              <div className="tag-panel">
+                {benefitTags.map((benefit) => (
+                  <span className="tag-chip" key={benefit}>
+                    {benefit}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="recruit-section">
+            <SectionTitle index={5} title="Thời gian & địa điểm" />
+            <div className="form-stack">
+              <div className="form-grid form-grid-three">
+                <Field label="Địa điểm làm việc">
+                  <input type="text" defaultValue="TP. Hồ Chí Minh" />
+                </Field>
+                <Field label="Thời gian làm việc">
+                  <input type="text" defaultValue="09:00 - 18:00" />
+                </Field>
+                <Field label="Hình thức">
+                  <input type="text" defaultValue="Hybrid" />
+                </Field>
+              </div>
+            </div>
+          </section>
+
+          <section className="recruit-section">
+            <SectionTitle index={6} title="Thông tin công ty" />
+            <div className="form-stack">
+              <Field label="Tự động lấy từ hồ sơ công ty" wide>
+                <input type="text" defaultValue="Công ty công nghệ nội bộ" />
+              </Field>
+              <Field label="Giới thiệu ngắn" wide>
+                <textarea
+                  rows="2"
+                  defaultValue="Môi trường làm việc tập trung vào sản phẩm, quy trình gọn và ưu tiên tốc độ phản hồi trong đội ngũ nhỏ."
+                />
+              </Field>
+            </div>
+          </section>
+
+          <section className="recruit-section">
+            <SectionTitle index={7} title="Cài đặt đăng tin" />
+            <div className="form-stack">
+              <div className="status-options" role="radiogroup" aria-label="Cài đặt trạng thái đăng tin">
+                {statusOptions.map((option, index) => (
+                  <label className="status-option" key={option}>
+                    <input type="radio" name="post-status" defaultChecked={index === 0} />
+                    <span>{option}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <div className="action-row" aria-label="Hành động cuối trang">
+            <button className="btn btn-muted" type="button">
+              Lưu nháp
+            </button>
+            <button className="btn btn-primary" type="button">
+              Xem trước
+            </button>
+            <button className="btn btn-success" type="button">
+              Đăng tin
+            </button>
+            <button className="btn btn-danger" type="button">
+              Hủy
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
   );
 }
 
-export default HomePage;
+export default Dangtintuyendung;
