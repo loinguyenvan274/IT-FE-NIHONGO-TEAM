@@ -21,6 +21,7 @@ function App() {
             <Route path="/recruitments" element={<Danhsachtuyendung />} />
             <Route path="/matching" element={<Manhinhmatching />} />
             <Route path="/search" element={<Timkiemcongviec />} />
+            <Route path="/Chitiettuyendung/temp" element={<Chitiettuyendung />} />
             <Route path="/chitiettuyendung" element={<Chitiettuyendung />} />
           </Routes>
         </main>

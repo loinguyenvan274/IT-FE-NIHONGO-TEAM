@@ -110,6 +110,15 @@
   box-shadow: 0 0 0 3px rgba(67, 125, 161, 0.08);
 }
 
+.field-error {
+  display: block;
+  margin-top: -1px;
+  min-height: 1em;
+  color: #b42318;
+  font-size: 0.74rem;
+  line-height: 1.45;
+}
+
 .post-field textarea {
   resize: vertical;
   min-height: 44px;

@@ -1,22 +1,28 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import "./Chitiettuyendung.css";
 
+const defaultRecruitmentData = {
+  title: "Tuyển dụng Lập trình viên Frontend",
+  jobName: "Lập trình viên ReactJS",
+  companyName: "Công ty ABC",
+  salary: "15-20 triệu VND",
+  location: "Hà Nội",
+  employmentType: "Toàn thời gian",
+  deadline: "30/04/2026",
+  description:
+    "Chúng tôi đang tìm kiếm một lập trình viên Frontend có kinh nghiệm với ReactJS để tham gia vào dự án phát triển ứng dụng web.",
+  requirements:
+    "Kinh nghiệm 2+ năm với ReactJS, HTML/CSS, JavaScript. Có khả năng làm việc nhóm tốt.",
+  benefits:
+    "Lương cạnh tranh, thưởng hiệu suất, bảo hiểm, làm việc linh hoạt.",
+};
+
 function Chitiettuyendung() {
-  // Dữ liệu mẫu cho trang chi tiết tuyển dụng
+  const location = useLocation();
   const recruitmentData = {
-    title: "Tuyển dụng Lập trình viên Frontend",
-    jobName: "Lập trình viên ReactJS",
-    companyName: "Công ty ABC",
-    salary: "15-20 triệu VND",
-    location: "Hà Nội",
-    employmentType: "Toàn thời gian",
-    deadline: "30/04/2026",
-    description:
-      "Chúng tôi đang tìm kiếm một lập trình viên Frontend có kinh nghiệm với ReactJS để tham gia vào dự án phát triển ứng dụng web.",
-    requirements:
-      "Kinh nghiệm 2+ năm với ReactJS, HTML/CSS, JavaScript. Có khả năng làm việc nhóm tốt.",
-    benefits:
-      "Lương cạnh tranh, thưởng hiệu suất, bảo hiểm, làm việc linh hoạt.",
+    ...defaultRecruitmentData,
+    ...(location.state?.recruitmentData ?? {}),
   };
 
   const handleEdit = () => {
