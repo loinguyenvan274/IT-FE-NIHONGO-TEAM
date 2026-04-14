@@ -164,6 +164,15 @@
   color: #41484d;
 }
 
+.recruitment-feedback-error {
+  margin: 12px 2px 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff4f3;
+  color: #b42318;
+  font-size: 0.92rem;
+}
+
 @media (max-width: 900px) {
   .recruitment-table-head {
     display: none;

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { recruitmentPosts } from '../../data';
+import { fetchJobPosts } from '../../services/api';
 import './Danhsachtuyendung.css';
 
 function SearchIcon() {
@@ -23,6 +24,15 @@ function LocationIcon() {
       />
     </svg>
   );
+}
+
+function filterLocalPosts(posts, keyword, location) {
+  const normalizedKeyword = (keyword || '').trim().toLowerCase();
+  return posts.filter((post) => {
+    const matchTitle = (post.title || '').toLowerCase().includes(normalizedKeyword);
+    const matchLocation = location === 'Tất cả' || post.location === location;
+    return matchTitle && matchLocation;
+  });
 }
 
 function Danhsachtuyendung() {
@@ -95,10 +105,12 @@ function Danhsachtuyendung() {
         </div>
 
         <div className="recruitment-list">
-          {filteredPosts.length === 0 ? (
+          {isLoading ? (
+            <p className="recruitment-empty-state">Đang tải dữ liệu...</p>
+          ) : posts.length === 0 ? (
             <p className="recruitment-empty-state">Không có tin tuyển dụng phù hợp.</p>
           ) : (
-            filteredPosts.map((post, index) => (
+            posts.map((post, index) => (
               <article
                 key={post.id}
                 className={`recruitment-row ${index % 2 === 0 ? 'is-light' : 'is-low'}`}
@@ -119,6 +131,7 @@ function Danhsachtuyendung() {
             ))
           )}
         </div>
+        {errorMessage ? <p className="recruitment-feedback-error">{errorMessage}</p> : null}
       </div>
     </section>
   );
