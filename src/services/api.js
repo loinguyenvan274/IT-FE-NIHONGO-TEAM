@@ -102,13 +102,21 @@ function normalizeCandidateFilters(filters = {}) {
 async function request(path, options = {}) {
   const apiBaseUrl = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL);
   const requestUrl = apiBaseUrl ? `${apiBaseUrl}${path}` : path;
-  const response = await fetch(requestUrl, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options.headers || {}),
-    },
-  });
+
+  let response;
+  try {
+    response = await fetch(requestUrl, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(options.headers || {}),
+      },
+    });
+  } catch (error) {
+    const networkError = new Error(error?.message || 'Lỗi kết nối API. Vui lòng kiểm tra mạng.');
+    networkError.status = 0;
+    throw networkError;
+  }
 
   const contentType = response.headers.get('content-type') || '';
   const payload = contentType.includes('application/json') ? await response.json() : await response.text();
@@ -140,6 +148,13 @@ export async function fetchJobPosts(filters = {}) {
   }
 
   return [];
+}
+
+export async function createJobPost(jobData = {}) {
+  return request('/api/jobs/posts/', {
+    method: 'POST',
+    body: JSON.stringify(jobData),
+  });
 }
 
 export async function fetchCandidates(filters = {}) {
