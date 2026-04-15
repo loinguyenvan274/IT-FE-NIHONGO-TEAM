@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ROUTES, buildInDevelopmentPath } from "../../constants/routes";
+import { ROUTES, buildInDevelopmentPath, buildJobEditPath } from "../../constants/routes";
 import styles from "./Chitiettuyendung.module.css";
 
 const defaultRecruitmentData = {
@@ -32,8 +32,10 @@ function Chitiettuyendung() {
     location.state?.recruitmentId ??
     "";
 
+  // ĐÃ SỬA: Chuyển hướng tới trang Edit thay vì trang "Đang phát triển"
   const handleEdit = () => {
-    navigate(buildInDevelopmentPath("job-edit"));
+    // Ưu tiên dùng ID thực tế, nếu không có thì mặc định lấy ID = 1 để test
+    navigate(buildJobEditPath(recruitmentId || 1));
   };
 
   const handleDelete = () => {

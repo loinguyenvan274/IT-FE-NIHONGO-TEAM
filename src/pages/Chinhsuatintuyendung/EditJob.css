@@ -1,0 +1,122 @@
+.edit-job-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.edit-job-header {
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.edit-job-header h2 {
+  margin: 0;
+  color: #1e293b;
+  font-size: 24px;
+}
+
+.edit-job-header p {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.edit-job-form .form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-job-form label {
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.required {
+  color: #ef4444;
+}
+
+.edit-job-form input,
+.edit-job-form textarea,
+.edit-job-form select {
+  padding: 12px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #0f172a;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.edit-job-form input:focus,
+.edit-job-form textarea:focus,
+.edit-job-form select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 2px solid #f1f5f9;
+}
+
+.btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+.btn-cancel:hover {
+  background-color: #e2e8f0;
+  color: #0f172a;
+}
+
+.btn-save {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.btn-save:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.edit-job-loading, .edit-job-error {
+  text-align: center;
+  padding: 50px;
+  font-size: 18px;
+  color: #64748b;
+}
+
+.edit-job-error {
+  color: #ef4444;
+}

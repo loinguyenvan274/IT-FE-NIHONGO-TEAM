@@ -179,4 +179,17 @@ export async function fetchCandidateDetail(candidateId) {
   });
 }
 
+// Lấy chi tiết công việc để đổ vào Form
+export async function fetchJobDetail(id) {
+  return request(`/api/jobs/posts/${id}/`); 
+}
+
+// Cập nhật công việc (PATCH)
+export async function updateJobPost(id, updateData) {
+  return request(`/api/jobs/posts/${id}/`, {
+    method: 'PATCH',
+    body: JSON.stringify(updateData),
+  });
+}
+
 export { buildQueryString, request, normalizeCandidateFilters, getTestToken, setAuthToken };

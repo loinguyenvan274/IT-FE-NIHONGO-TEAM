@@ -4,6 +4,7 @@ export const ROUTES = {
   RECRUITMENT_LIST: '/danh-sach-tuyen-dung',
   JOB_DETAIL: '/chi-tiet-tuyen-dung',
   JOB_POST: '/dang-tin-tuyen-dung',
+  JOB_EDIT: '/jobs/edit/:id', 
   MATCHING: '/man-hinh-matching',
   CANDIDATES: '/quan-ly-ung-vien',
   CANDIDATE_DETAIL: '/quan-ly-ung-vien/:id',
@@ -25,11 +26,14 @@ export function buildCandidateDetailPath(id) {
   return `${ROUTES.CANDIDATES}/${id}`;
 }
 
+export function buildJobEditPath(id) {
+  return ROUTES.JOB_EDIT.replace(':id', id);
+}
+
 export function buildInDevelopmentPath(feature) {
   if (!feature) {
     return ROUTES.IN_DEVELOPMENT;
   }
-
   const query = new URLSearchParams({ feature });
   return `${ROUTES.IN_DEVELOPMENT}?${query.toString()}`;
 }
