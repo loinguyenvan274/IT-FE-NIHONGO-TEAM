@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ROUTES, buildInDevelopmentPath } from '../../constants/routes';
-import './InDevelopment.css';
+import styles from './InDevelopment.module.css';
 
 const FEATURE_LABELS = {
   '404': 'Trang bạn tìm không tồn tại trong demo hiện tại.',
@@ -37,23 +37,23 @@ function InDevelopment() {
   const message = FEATURE_LABELS[featureName] || 'Chức năng này đang trong quá trình phát triển cho bản demo MVC.';
 
   return (
-    <main className="in-development-page">
-      <section className="in-development-card">
-        <p className="in-development-eyebrow">IN DEVELOPMENT</p>
+    <main className={styles['in-development-page']}>
+      <section className={styles['in-development-card']}>
+        <p className={styles['in-development-eyebrow']}>IN DEVELOPMENT</p>
         <h1>Tính năng chưa sẵn sàng</h1>
         <p>{message}</p>
 
-        <div className="in-development-actions">
-          <Link to={ROUTES.JOB_SEARCH} className="in-dev-button primary">
+        <div className={styles['in-development-actions']}>
+          <Link to={ROUTES.JOB_SEARCH} className={`${styles['in-dev-button']} ${styles['primary']}`}>
             Về trang tìm việc
           </Link>
-          <Link to={ROUTES.RECRUITMENT_LIST} className="in-dev-button">
+          <Link to={ROUTES.RECRUITMENT_LIST} className={styles['in-dev-button']}>
             Danh sách tuyển dụng
           </Link>
-          <Link to={ROUTES.CANDIDATES} className="in-dev-button">
+          <Link to={ROUTES.CANDIDATES} className={styles['in-dev-button']}>
             Quản lý ứng viên
           </Link>
-          <Link to={buildInDevelopmentPath('404')} className="in-dev-button ghost">
+          <Link to={buildInDevelopmentPath('404')} className={`${styles['in-dev-button']} ${styles['ghost']}`}>
             Xem thông báo 404 demo
           </Link>
         </div>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
-import './Manhinhmatching.css';
+import styles from './Manhinhmatching.module.css';
 
 function Manhinhmatching() {
   const navigate = useNavigate();
@@ -56,37 +56,37 @@ function Manhinhmatching() {
   };
 
   return (
-    <div className="app-shell">
-      <div className="ambient ambient-left" />
-      <div className="ambient ambient-right" />
+    <div className={styles['app-shell']}>
+      <div className={styles['ambient ambient-left']} />
+      <div className={styles['ambient ambient-right']} />
 
-      <header className="topbar">
-        <div className="brand-block">
-          <div className="brand-mark">IT</div>
+      <header className={styles['topbar']}>
+        <div className={styles['brand-block']}>
+          <div className={styles['brand-mark']}>IT</div>
           <div>
             <strong>IT-FE</strong>
             <span>Màn hình Matching</span>
           </div>
         </div>
 
-        <nav className="topnav" aria-label="Điều hướng chính">
-          <button className="topnav-link" type="button" onClick={() => navigate(ROUTES.JOB_SEARCH)}>
+        <nav className={styles['topnav']} aria-label="Điều hướng chính">
+          <button className={styles['topnav-link']} type="button" onClick={() => navigate(ROUTES.JOB_SEARCH)}>
             Trang chủ
           </button>
-          <button className="topnav-link is-active" type="button" onClick={() => navigate(ROUTES.MATCHING)}>
+          <button className={`${styles['topnav-link']} ${styles['is-active']}`} type="button" onClick={() => navigate(ROUTES.MATCHING)}>
             Matching
           </button>
         </nav>
       </header>
 
-      <main className="page">
-        <section className="hero-card">
-          <div className="hero-copy">
+      <main className={styles['page']}>
+        <section className={styles['hero-card']}>
+          <div className={styles['hero-copy']}>
             <h1>Thiết lập điều kiện Matching</h1>
             <p>Nhập các điều kiện để hệ thống ghép ứng viên phù hợp.</p>
 
-            <form className="matching-form">
-              <div className="form-group">
+            <form className={styles['matching-form']}>
+              <div className={styles['form-group']}>
                 <label htmlFor="matchingCondition">Điều kiện matching</label>
                 <input
                   type="text"
@@ -98,7 +98,7 @@ function Manhinhmatching() {
                 />
               </div>
 
-              <div className="form-group">
+              <div className={styles['form-group']}>
                 <label htmlFor="workDate">Ngày làm việc</label>
                 <input
                   type="date"
@@ -109,9 +109,9 @@ function Manhinhmatching() {
                 />
               </div>
 
-              <div className="form-group">
+              <div className={styles['form-group']}>
                 <label>Thời gian làm việc</label>
-                <div className="time-inputs">
+                <div className={styles['time-inputs']}>
                   <input
                     type="time"
                     name="startTime"
@@ -130,7 +130,7 @@ function Manhinhmatching() {
                 </div>
               </div>
 
-              <div className="form-group">
+              <div className={styles['form-group']}>
                 <label htmlFor="location">Địa điểm làm việc</label>
                 <select
                   id="location"
@@ -145,7 +145,7 @@ function Manhinhmatching() {
                 </select>
               </div>
 
-              <div className="form-group">
+              <div className={styles['form-group']}>
                 <label htmlFor="staffCount">Số lượng nhân sự cần tuyển</label>
                 <input
                   type="number"
@@ -157,9 +157,9 @@ function Manhinhmatching() {
                 />
               </div>
 
-              <div className="form-group">
+              <div className={styles['form-group']}>
                 <label>Khoảng lương</label>
-                <div className="salary-inputs">
+                <div className={styles['salary-inputs']}>
                   <input
                     type="number"
                     name="minSalary"
@@ -178,7 +178,7 @@ function Manhinhmatching() {
                 </div>
               </div>
 
-              <div className="form-group">
+              <div className={styles['form-group']}>
                 <label htmlFor="requiredSkills">Kỹ năng bắt buộc</label>
                 <input
                   type="text"
@@ -190,7 +190,7 @@ function Manhinhmatching() {
                 />
               </div>
 
-              <div className="form-group">
+              <div className={styles['form-group']}>
                 <label htmlFor="preferredConditions">Điều kiện ưu tiên</label>
                 <textarea
                   id="preferredConditions"
@@ -201,33 +201,33 @@ function Manhinhmatching() {
                 />
               </div>
 
-              <div className="form-actions">
-                <button type="button" className="btn btn-secondary" onClick={handlePreview}>
+              <div className={styles['form-actions']}>
+                <button type="button" className={styles['btn btn-secondary']} onClick={handlePreview}>
                   Xem trước kết quả
                 </button>
-                <button type="button" className="btn btn-primary" onClick={handleMatching}>
+                <button type="button" className={styles['btn btn-primary']} onClick={handleMatching}>
                   Thực hiện matching
                 </button>
-                <button type="button" className="btn btn-secondary" onClick={handleReset}>
+                <button type="button" className={styles['btn btn-secondary']} onClick={handleReset}>
                   Đặt lại điều kiện
                 </button>
               </div>
             </form>
           </div>
 
-          <aside className="hero-summary">
-            <p className="summary-label">Xem trước kết quả</p>
+          <aside className={styles['hero-summary']}>
+            <p className={styles['summary-label']}>Xem trước kết quả</p>
             {previewResult !== null ? (
               <>
                 <h3>Số ứng viên phù hợp dự kiến: {previewResult}</h3>
-                <div className="summary-panel">
+                <div className={styles['summary-panel']}>
                   <div>
                     <span>Mức độ phù hợp trung bình</span>
                     <strong>{averageMatch}%</strong>
                   </div>
                 </div>
-                <p className="note">* Kết quả chỉ mang tính ước tính</p>
-                <p className="note">* Có thể thay đổi khi điều kiện được điều chỉnh</p>
+                <p className={styles['note']}>* Kết quả chỉ mang tính ước tính</p>
+                <p className={styles['note']}>* Có thể thay đổi khi điều kiện được điều chỉnh</p>
               </>
             ) : (
               <h3>Nhấn "Xem trước kết quả" để xem ước tính</h3>

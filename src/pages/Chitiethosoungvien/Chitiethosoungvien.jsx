@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { fetchCandidateDetail } from '../../services/api';
 import { ROUTES, buildInDevelopmentPath } from '../../constants/routes';
-import './Chitiethosoungvien.css';
+import styles from './Chitiethosoungvien.module.css';
 
 const DEFAULT_AVATAR =
   'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=320&q=80';
@@ -91,11 +91,11 @@ function Chitiethosoungvien() {
   const experience = useMemo(() => candidateDetail?.experience || [], [candidateDetail]);
 
   return (
-    <section className="candidate-detail-page">
-      <div className="candidate-detail-shell">
+    <section className={styles['candidate-detail-page']}>
+      <div className={styles['candidate-detail-shell']}>
         <button
           type="button"
-          className="candidate-back-button"
+          className={styles['candidate-back-button']}
           onClick={() => {
             if (routeLocation.state?.fromPath) {
               navigate(`${routeLocation.state.fromPath}${routeLocation.state.fromSearch || ''}`);
@@ -107,32 +107,32 @@ function Chitiethosoungvien() {
           Quay lại danh sách ứng viên
         </button>
 
-        {isLoading ? <p className="candidate-detail-feedback">Đang tải chi tiết ứng viên...</p> : null}
-        {!isLoading && errorMessage ? <p className="candidate-detail-feedback error">{errorMessage}</p> : null}
+        {isLoading ? <p className={styles['candidate-detail-feedback']}>Đang tải chi tiết ứng viên...</p> : null}
+        {!isLoading && errorMessage ? <p className={`${styles['candidate-detail-feedback']} ${styles['error']}`}>{errorMessage}</p> : null}
 
         {!isLoading && !errorMessage && candidateDetail ? (
-          <div className="candidate-detail-grid">
-            <div className="candidate-detail-main">
-              <section className="candidate-profile-card">
+          <div className={styles['candidate-detail-grid']}>
+            <div className={styles['candidate-detail-main']}>
+              <section className={styles['candidate-profile-card']}>
                 <img
                   src={candidateDetail.avatar_url || DEFAULT_AVATAR}
                   alt={candidateDetail.full_name || 'Candidate avatar'}
                 />
                 <div>
-                  <div className="candidate-profile-title">
+                  <div className={styles['candidate-profile-title']}>
                     <h1>{candidateDetail.full_name || 'Ứng viên'}</h1>
                     <span>PHÙ HỢP</span>
                   </div>
 
-                  <p className="candidate-profile-subtitle">Ứng viên tiềm năng cho vị trí phù hợp</p>
+                  <p className={styles['candidate-profile-subtitle']}>Ứng viên tiềm năng cho vị trí phù hợp</p>
 
-                  <div className="candidate-profile-actions">
+                  <div className={styles['candidate-profile-actions']}>
                     <button type="button" onClick={() => navigate(buildInDevelopmentPath('candidate-contact'))}>
                       Liên hệ ngay
                     </button>
                     <button
                       type="button"
-                      className="secondary"
+                      className={styles['secondary']}
                       onClick={() => navigate(buildInDevelopmentPath('candidate-cv'))}
                     >
                       Tải CV
@@ -141,7 +141,7 @@ function Chitiethosoungvien() {
                 </div>
               </section>
 
-              <section className="candidate-section-card">
+              <section className={styles['candidate-section-card']}>
                 <h2>Giới thiệu bản thân</h2>
                 <p>
                   Ứng viên hiện đang ở {candidateDetail.location || 'địa điểm chưa cập nhật'} với bộ kỹ năng
@@ -149,15 +149,15 @@ function Chitiethosoungvien() {
                 </p>
               </section>
 
-              <section className="candidate-section-card">
+              <section className={styles['candidate-section-card']}>
                 <h2>Kinh nghiệm làm việc</h2>
                 {experience.length === 0 ? (
-                  <p className="empty">Chưa có dữ liệu kinh nghiệm làm việc.</p>
+                  <p className={styles['empty']}>Chưa có dữ liệu kinh nghiệm làm việc.</p>
                 ) : (
-                  <div className="experience-list">
+                  <div className={styles['experience-list']}>
                     {experience.map((item, index) => (
-                      <article key={`${item.title || 'exp'}-${index}`} className="experience-item">
-                        <div className="experience-dot" />
+                      <article key={`${item.title || 'exp'}-${index}`} className={styles['experience-item']}>
+                        <div className={styles['experience-dot']} />
                         <div>
                           <h3>{item.title || 'Vị trí chưa cập nhật'}</h3>
                           <p>{item.company || 'Công ty chưa cập nhật'}</p>
@@ -172,16 +172,16 @@ function Chitiethosoungvien() {
                 )}
               </section>
 
-              <section className="candidate-section-card">
+              <section className={styles['candidate-section-card']}>
                 <h2>Đánh giá gần đây</h2>
                 <p>
                   Điểm trung bình: <strong>{reviewSummary.avg_rating}</strong> ({reviewSummary.total_reviews} đánh
                   giá)
                 </p>
                 {reviews.length === 0 ? (
-                  <p className="empty">Chưa có nhận xét chi tiết.</p>
+                  <p className={styles['empty']}>Chưa có nhận xét chi tiết.</p>
                 ) : (
-                  <div className="reviews-list">
+                  <div className={styles['reviews-list']}>
                     {reviews.map((review, index) => (
                       <article key={`${review.created_at || 'review'}-${index}`}>
                         <h4>{review.rating}/5</h4>
@@ -194,8 +194,8 @@ function Chitiethosoungvien() {
               </section>
             </div>
 
-            <aside className="candidate-detail-sidebar">
-              <section className="candidate-side-card">
+            <aside className={styles['candidate-detail-sidebar']}>
+              <section className={styles['candidate-side-card']}>
                 <h3>Thông tin liên hệ</h3>
                 <ul>
                   <li>
@@ -209,7 +209,7 @@ function Chitiethosoungvien() {
                 </ul>
               </section>
 
-              <section className="candidate-side-card">
+              <section className={styles['candidate-side-card']}>
                 <h3>Thông tin tuyển dụng</h3>
                 <ul>
                   <li>
@@ -227,12 +227,12 @@ function Chitiethosoungvien() {
                 </ul>
               </section>
 
-              <section className="candidate-side-card">
+              <section className={styles['candidate-side-card']}>
                 <h3>Kỹ năng chuyên môn</h3>
                 {skills.length === 0 ? (
-                  <p className="empty">Chưa có dữ liệu kỹ năng.</p>
+                  <p className={styles['empty']}>Chưa có dữ liệu kỹ năng.</p>
                 ) : (
-                  <div className="skill-tags">
+                  <div className={styles['skill-tags']}>
                     {skills.map((skill) => (
                       <span key={skill}>{skill}</span>
                     ))}
@@ -240,12 +240,12 @@ function Chitiethosoungvien() {
                 )}
               </section>
 
-              <section className="candidate-side-card">
+              <section className={styles['candidate-side-card']}>
                 <h3>Chứng chỉ</h3>
                 {certifications.length === 0 ? (
-                  <p className="empty">Chưa có dữ liệu chứng chỉ.</p>
+                  <p className={styles['empty']}>Chưa có dữ liệu chứng chỉ.</p>
                 ) : (
-                  <ul className="cert-list">
+                  <ul className={styles['cert-list']}>
                     {certifications.map((certificate, index) => (
                       <li key={`${certificate.name || 'cert'}-${index}`}>
                         <strong>{certificate.name || 'Chứng chỉ'}</strong>

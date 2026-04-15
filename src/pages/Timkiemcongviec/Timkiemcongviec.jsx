@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { fetchJobPosts } from '../../services/api';
 import { ROUTES, buildInDevelopmentPath } from '../../constants/routes';
-import './Timkiemcongviec.css';
+import styles from './Timkiemcongviec.module.css';
 import danangImage from './danang.jpg';
 
 const navItems = [
@@ -64,24 +64,24 @@ function JobCard({ job }) {
   const badges = Array.isArray(job.badges) && job.badges.length > 0 ? job.badges : ['Tuyển dụng'];
 
   return (
-    <article className="job-card">
-      <div className="job-card-top">
-        <div className="job-avatar" aria-hidden="true">
+    <article className={styles['job-card']}>
+      <div className={styles['job-card-top']}>
+        <div className={styles['job-avatar']} aria-hidden="true">
           <span>◻</span>
         </div>
-        {job.status ? <span className={`job-status ${job.status === 'Mới' ? 'is-new' : ''}`}>{job.status}</span> : null}
+        {job.status ? <span className={`${styles['job-status']} ${job.status === 'Mới' ? styles['is-new'] : ''}`}>{job.status}</span> : null}
       </div>
 
       <h3>{job.title}</h3>
       <p>{job.description}</p>
 
-      <div className="job-tags">
+      <div className={styles['job-tags']}>
         {badges.map((badge) => (
           <span key={badge}>{badge}</span>
         ))}
       </div>
 
-      <div className="job-meta">
+      <div className={styles['job-meta']}>
         <strong>{job.salary}</strong>
       </div>
     </article>
@@ -133,16 +133,16 @@ function Timkiemcongviec() {
   };
 
   return (
-    <div className="job-search-page">
-      <header className="job-topbar">
-        <div className="job-brand">
+    <div className={styles['job-search-page']}>
+      <header className={styles['job-topbar']}>
+        <div className={styles['job-brand']}>
           <strong>Executive Curator</strong>
         </div>
 
-        <nav className="job-nav" aria-label="Điều hướng chính">
+        <nav className={styles['job-nav']} aria-label="Điều hướng chính">
           {navItems.map((item, index) => (
             <button
-              className={`job-nav-link ${index === 0 ? 'is-active' : ''}`}
+              className={`${styles['job-nav-link']} ${index === 0 ? 'is-active' : ''}`}
               type="button"
               onClick={() => navigate(item.to)}
               key={item.label}
@@ -152,16 +152,16 @@ function Timkiemcongviec() {
           ))}
         </nav>
 
-        <div className="job-actions">
-          <div className="job-lang" aria-label="Chọn ngôn ngữ">
+        <div className={styles['job-actions']}>
+          <div className={styles['job-lang']} aria-label="Chọn ngôn ngữ">
             <button type="button">EN</button>
-            <button className="is-active" type="button">
+            <button className={styles['is-active']} type="button">
               VN
             </button>
             <button type="button">JP</button>
           </div>
           <button
-            className="job-login"
+            className={styles['job-login']}
             type="button"
             onClick={() => navigate(buildInDevelopmentPath('login'))}
           >
@@ -170,20 +170,20 @@ function Timkiemcongviec() {
         </div>
       </header>
 
-      <main className="job-page">
-        <section className="hero-section">
-          <div className="hero-copy">
-            <p className="eyebrow">Dành riêng cho bạn</p>
+      <main className={styles['job-page']}>
+        <section className={styles['hero-section']}>
+          <div className={styles['hero-copy']}>
+            <p className={styles['eyebrow']}>Dành riêng cho bạn</p>
             <h1>Định hình bước tiến sự nghiệp tiếp theo của bạn</h1>
-            <p className="hero-text">
+            <p className={styles['hero-text']}>
               Tiếp cận những cơ hội đặc quyền tại các công ty dẫn đầu ngành, được tuyển chọn kỹ lưỡng
               dành cho các chuyên gia ưu tú.
             </p>
 
-            <form className="search-panel" aria-label="Thanh tìm kiếm việc làm" onSubmit={handleSearch}>
-              <div className="search-inputs">
-                <label className="search-field">
-                  <span className="search-icon" aria-hidden="true">
+            <form className={styles['search-panel']} aria-label="Thanh tìm kiếm việc làm" onSubmit={handleSearch}>
+              <div className={styles['search-inputs']}>
+                <label className={styles['search-field']}>
+                  <span className={styles['search-icon']} aria-hidden="true">
                     ⌕
                   </span>
                   <input
@@ -194,8 +194,8 @@ function Timkiemcongviec() {
                   />
                 </label>
 
-                <label className="search-field">
-                  <span className="search-icon" aria-hidden="true">
+                <label className={styles['search-field']}>
+                  <span className={styles['search-icon']} aria-hidden="true">
                     ⌖
                   </span>
                   <select
@@ -214,8 +214,8 @@ function Timkiemcongviec() {
                   </select>
                 </label>
 
-                <label className="search-field">
-                  <span className="search-icon" aria-hidden="true">
+                <label className={styles['search-field']}>
+                  <span className={styles['search-icon']} aria-hidden="true">
                     ◫
                   </span>
                   <input
@@ -228,35 +228,35 @@ function Timkiemcongviec() {
                 </label>
               </div>
 
-              <div className="search-actions">
-                <button className="clear-link" type="button" onClick={handleClear}>
+              <div className={styles['search-actions']}>
+                <button className={styles['clear-link']} type="button" onClick={handleClear}>
                   Xóa
                 </button>
-                <button className="search-button" type="submit" disabled={isSearching}>
+                <button className={styles['search-button']} type="submit" disabled={isSearching}>
                   <span aria-hidden="true">⌕</span>
                   {isSearching ? 'Đang tìm...' : 'Tìm kiếm'}
                 </button>
               </div>
             </form>
 
-            {searchError ? <p className="search-error">{searchError}</p> : null}
+            {searchError ? <p className={styles['search-error']}>{searchError}</p> : null}
           </div>
 
-          <div className="hero-visual" aria-hidden="true">
-            <div className="hero-visual-overlay">
+          <div className={styles['hero-visual']} aria-hidden="true">
+            <div className={styles['hero-visual-overlay']}>
               <img src={danangImage} alt="Hình ảnh minh họa công việc" />
             </div>
           </div>
         </section>
 
-        <section className="job-section">
-          <div className="section-header">
+        <section className={styles['job-section']}>
+          <div className={styles['section-header']}>
             <div>
-              <p className="eyebrow">Dành riêng cho bạn</p>
+              <p className={styles['eyebrow']}>Dành riêng cho bạn</p>
               <h2>Gợi ý công việc</h2>
             </div>
             <button
-              className="view-all-link"
+              className={styles['view-all-link']}
               type="button"
               onClick={() => navigate(ROUTES.RECRUITMENT_LIST)}
             >
@@ -264,31 +264,31 @@ function Timkiemcongviec() {
             </button>
           </div>
 
-          <div className="job-grid">
+          <div className={styles['job-grid']}>
             {jobSuggestions.map((job) => (
               <JobCard job={job} key={job.title} />
             ))}
           </div>
         </section>
 
-        <section className="cta-band">
-          <p className="eyebrow cta-eyebrow">Trải nghiệm sự hỗ trợ cá nhân hóa</p>
+        <section className={styles['cta-band']}>
+          <p className={styles['eyebrow cta-eyebrow']}>Trải nghiệm sự hỗ trợ cá nhân hóa</p>
           <h2>Tham gia mạng lưới tài năng của chúng tôi</h2>
           <p>
             Tham gia mạng lưới tài năng của chúng tôi để nhận các gợi ý việc làm phù hợp với định
             hướng nghề nghiệp của bạn.
           </p>
 
-          <div className="cta-actions">
+          <div className={styles['cta-actions']}>
             <button
-              className="primary-pill"
+              className={styles['primary-pill']}
               type="button"
               onClick={() => navigate(buildInDevelopmentPath('create-profile'))}
             >
               Tạo hồ sơ
             </button>
             <button
-              className="secondary-pill"
+              className={styles['secondary-pill']}
               type="button"
               onClick={() => navigate(buildInDevelopmentPath('learn-more'))}
             >
@@ -298,13 +298,13 @@ function Timkiemcongviec() {
         </section>
       </main>
 
-      <footer className="job-footer">
+      <footer className={styles['job-footer']}>
         <div>
           <strong>Executive Curator</strong>
           <span>© 2024 Tuyển dụng Executive Curator. Bảo lưu mọi quyền.</span>
         </div>
 
-        <nav className="footer-links" aria-label="Liên kết chân trang">
+        <nav className={styles['footer-links']} aria-label="Liên kết chân trang">
           {footerLinks.map((item) => (
             <button type="button" key={item.label} onClick={() => navigate(item.to)}>
               {item.label}

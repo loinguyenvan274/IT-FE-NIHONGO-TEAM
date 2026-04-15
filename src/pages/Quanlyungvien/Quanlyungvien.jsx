@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { fetchCandidates, fetchMatchedCandidates } from '../../services/api';
 import { buildCandidateDetailPath, buildInDevelopmentPath } from '../../constants/routes';
-import './Quanlyungvien.css';
+import styles from './Quanlyungvien.module.css';
 
 const TAB_OPTIONS = [
   { value: 'all', label: 'Tất cả' },
@@ -238,9 +238,9 @@ function Quanlyungvien() {
   }
 
   return (
-    <section className="candidate-management-page">
-      <div className="candidate-management-shell">
-        <header className="candidate-management-header">
+    <section className={styles['candidate-management-page']}>
+      <div className={styles['candidate-management-shell']}>
+        <header className={styles['candidate-management-header']}>
           <h1>Màn hình quản lý ứng viên</h1>
           <p>
             {jobId
@@ -248,7 +248,7 @@ function Quanlyungvien() {
               : 'Danh sách ứng viên tổng quát theo bộ lọc tìm kiếm.'}
           </p>
 
-          <div className="candidate-management-search-wrap">
+          <div className={styles['candidate-management-search-wrap']}>
             <input
               type="search"
               placeholder="Tìm kiếm ứng viên theo tên hoặc kỹ năng..."
@@ -261,9 +261,9 @@ function Quanlyungvien() {
           </div>
         </header>
 
-        <div className="candidate-management-content">
-          <div className="candidate-list-column">
-            <div className="candidate-tabs" role="tablist" aria-label="Candidate tabs">
+        <div className={styles['candidate-management-content']}>
+          <div className={styles['candidate-list-column']}>
+            <div className={styles['candidate-tabs']} role="tablist" aria-label="Candidate tabs">
               {TAB_OPTIONS.map((tab) => (
                 <button
                   key={tab.value}
@@ -276,43 +276,43 @@ function Quanlyungvien() {
               ))}
             </div>
 
-            {isLoading ? <p className="candidate-list-feedback">Đang tải dữ liệu ứng viên...</p> : null}
-            {!isLoading && errorMessage ? <p className="candidate-list-feedback error">{errorMessage}</p> : null}
+            {isLoading ? <p className={styles['candidate-list-feedback']}>Đang tải dữ liệu ứng viên...</p> : null}
+            {!isLoading && errorMessage ? <p className={styles['candidate-list-feedback error']}>{errorMessage}</p> : null}
             {!isLoading && !errorMessage && displayCandidates.length === 0 ? (
-              <p className="candidate-list-feedback">Không tìm thấy ứng viên phù hợp.</p>
+              <p className={styles['candidate-list-feedback']}>Không tìm thấy ứng viên phù hợp.</p>
             ) : null}
 
-            <div className="candidate-list-cards">
+            <div className={styles['candidate-list-cards']}>
               {displayCandidates.map((candidate) => (
-                <article key={candidate.candidate_id} className="candidate-card">
+                <article key={candidate.candidate_id} className={styles['candidate-card']}>
                   <img
-                    className="candidate-avatar"
+                    className={styles['candidate-avatar']}
                     src={candidate.avatar_url || DEFAULT_AVATAR}
                     alt={candidate.full_name || 'Candidate'}
                   />
 
-                  <div className="candidate-main-content">
-                    <div className="candidate-card-head">
+                  <div className={styles['candidate-main-content']}>
+                    <div className={styles['candidate-card-head']}>
                       <h2>{candidate.full_name || 'Ứng viên'}</h2>
                       {Number(candidate.matching_score) >= 80 ? <span>TOP TALENT</span> : null}
                     </div>
 
-                    <p className="candidate-subtitle">
+                    <p className={styles['candidate-subtitle']}>
                       {candidate.location || 'Không rõ địa điểm'} • Matching {candidate.matching_score ?? 0}%
                     </p>
 
-                    <div className="candidate-skills">
+                    <div className={styles['candidate-skills']}>
                       {(candidate.primary_skills || []).map((skill) => (
                         <span key={`${candidate.candidate_id}-${skill}`}>{skill}</span>
                       ))}
                     </div>
 
-                    <div className="candidate-meta">
+                    <div className={styles['candidate-meta']}>
                       <span>Lương mong muốn: {formatSalary(candidate.expected_salary)}</span>
                       <span>Cập nhật: {formatRelativeDate(candidate.updated_at)}</span>
                     </div>
 
-                    <div className="candidate-actions">
+                    <div className={styles['candidate-actions']}>
                       <button
                         type="button"
                         onClick={() => navigate(buildInDevelopmentPath('candidate-contact'))}
@@ -321,7 +321,7 @@ function Quanlyungvien() {
                       </button>
                       <button
                         type="button"
-                        className="secondary"
+                        className={styles['secondary']}
                         onClick={() => {
                           const nextSearch = routeLocation.search || '';
                           navigate(`${buildCandidateDetailPath(candidate.candidate_id)}${nextSearch}`, {
@@ -337,7 +337,7 @@ function Quanlyungvien() {
               ))}
             </div>
 
-            <footer className="candidate-pagination">
+            <footer className={styles['candidate-pagination']}>
               <button
                 type="button"
                 onClick={() => setPage((current) => Math.max(1, current - 1))}
@@ -358,7 +358,7 @@ function Quanlyungvien() {
             </footer>
           </div>
 
-          <aside className="candidate-filter-column">
+          <aside className={styles['candidate-filter-column']}>
             <h3>Bộ lọc nâng cao</h3>
 
             <label htmlFor="candidate-sort">Sắp xếp theo</label>
@@ -377,7 +377,7 @@ function Quanlyungvien() {
             />
 
             <label>Mức lương mong muốn</label>
-            <div className="candidate-salary-range">
+            <div className={styles['candidate-salary-range']}>
               <input
                 type="number"
                 placeholder="Min"
@@ -402,10 +402,10 @@ function Quanlyungvien() {
               onChange={(event) => setAvailabilityInput(event.target.value)}
             />
 
-            <button type="button" className="apply-filter" onClick={handleApplyFilters}>
+            <button type="button" className={styles['apply-filter']} onClick={handleApplyFilters}>
               Áp dụng bộ lọc
             </button>
-            <button type="button" className="clear-filter" onClick={handleClearFilters}>
+            <button type="button" className={styles['clear-filter']} onClick={handleClearFilters}>
               Xóa tất cả
             </button>
           </aside>

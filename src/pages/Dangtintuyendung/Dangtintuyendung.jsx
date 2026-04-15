@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createJobPost } from '../../services/api';
 import { ROUTES } from '../../constants/routes';
-import './Dangtintuyendung.css';
+import styles from './Dangtintuyendung.module.css';
 
 const requirementTags = ['ReactJS', 'HTML/CSS', 'REST API'];
 
@@ -58,8 +58,8 @@ function getSavedDraft() {
 
 function SectionTitle({ index, title }) {
   return (
-    <div className="post-section-title">
-      <div className="post-section-index">{index}</div>
+    <div className={styles['post-section-title']}>
+      <div className={styles['post-section-index']}>{index}</div>
       <h2>{title}</h2>
     </div>
   );
@@ -67,7 +67,7 @@ function SectionTitle({ index, title }) {
 
 function Field({ label, children, wide = false }) {
   return (
-    <label className={`post-field${wide ? ' post-field-wide' : ''}`}>
+    <label className={`${styles['post-field']} ${wide ? styles['post-field-wide'] : ''}`}>
       <span>{label}</span>
       {children}
     </label>
@@ -224,17 +224,17 @@ function Dangtintuyendung() {
   };
 
   return (
-    <main className="recruit-post-page">
-      <div className="recruit-post-shell">
-        <header className="page-title-block">
+    <main className={styles['recruit-post-page']}>
+      <div className={styles['recruit-post-shell']}>
+        <header className={styles['page-title-block']}>
           <h1>Đăng tin tuyển dụng</h1>
         </header>
 
-        <form ref={formRef} className="recruit-form">
-          <section className="recruit-section">
+        <form ref={formRef} className={styles['recruit-form']}>
+          <section className={styles['recruit-section']}>
             <SectionTitle index={1} title="Thông tin cơ bản công việc" />
-            <div className="form-stack">
-              <div className="form-grid form-grid-two">
+            <div className={styles['form-stack']}>
+              <div className={styles['form-grid form-grid-two']}>
                 <Field label="Tiêu đề công việc">
                   <input name="title" type="text" defaultValue={initialDraft.title} />
                 </Field>
@@ -251,9 +251,9 @@ function Dangtintuyendung() {
             </div>
           </section>
 
-          <section className="recruit-section">
+          <section className={styles['recruit-section']}>
             <SectionTitle index={2} title="Mô tả công việc" />
-            <div className="form-stack">
+            <div className={styles['form-stack']}>
               <Field label="Mô tả công việc" wide>
                 <textarea
                   name="description"
@@ -271,11 +271,11 @@ function Dangtintuyendung() {
             </div>
           </section>
 
-          <section className="recruit-section">
+          <section className={styles['recruit-section']}>
             <SectionTitle index={3} title="Yêu cầu ứng viên" />
-            <div className="form-stack">
-              <div className="skills-panel">
-                <div className="inline-chips" aria-label="Các kỹ năng cần có">
+            <div className={styles['form-stack']}>
+              <div className={styles['skills-panel']}>
+                <div className={styles['inline-chips']} aria-label="Các kỹ năng cần có">
                   {skills.map((skill, index) => (
                     <input
                       key={`skill-${index}`}
@@ -288,7 +288,7 @@ function Dangtintuyendung() {
                     />
                   ))}
                 </div>
-                <button className="skill-add-button" type="button" onClick={addSkill}>
+                <button className={styles['skill-add-button']} type="button" onClick={addSkill}>
                   <span aria-hidden="true">+</span>
                   <span>Thêm kỹ năng</span>
                 </button>
@@ -303,10 +303,10 @@ function Dangtintuyendung() {
             </div>
           </section>
 
-          <section className="recruit-section">
+          <section className={styles['recruit-section']}>
             <SectionTitle index={4} title="Quyền lợi & chế độ" />
-            <div className="form-stack">
-              <div className="form-grid form-grid-two">
+            <div className={styles['form-stack']}>
+              <div className={styles['form-grid form-grid-two']}>
                 <Field label="Mức lương">
                   <input name="salary" type="text" defaultValue={initialDraft.salary} />
                 </Field>
@@ -322,9 +322,9 @@ function Dangtintuyendung() {
                 </Field>
               </div>
 
-              <div className="tag-panel">
+              <div className={styles['tag-panel']}>
                 {benefitTags.map((benefit) => (
-                  <span className="tag-chip" key={benefit}>
+                  <span className={styles['tag-chip']} key={benefit}>
                     {benefit}
                   </span>
                 ))}
@@ -332,10 +332,10 @@ function Dangtintuyendung() {
             </div>
           </section>
 
-          <section className="recruit-section">
+          <section className={styles['recruit-section']}>
             <SectionTitle index={5} title="Thời gian & địa điểm" />
-            <div className="form-stack">
-              <div className="form-grid form-grid-three">
+            <div className={styles['form-stack']}>
+              <div className={styles['form-grid form-grid-three']}>
                 <Field label="Địa điểm làm việc">
                   <input name="location" type="text" defaultValue={initialDraft.location} />
                 </Field>
@@ -357,7 +357,7 @@ function Dangtintuyendung() {
                     aria-describedby={workTimeError ? 'work-time-hint' : undefined}
                   />
                   {workTimeError ? (
-                    <small id="work-time-hint" className="field-error">
+                    <small id="work-time-hint" className={styles['field-error']}>
                       {workTimeError}
                     </small>
                   ) : null}
@@ -372,9 +372,9 @@ function Dangtintuyendung() {
             </div>
           </section>
 
-          <section className="recruit-section">
+          <section className={styles['recruit-section']}>
             <SectionTitle index={6} title="Thông tin công ty" />
-            <div className="form-stack">
+            <div className={styles['form-stack']}>
               <Field label="Tự động lấy từ hồ sơ công ty" wide>
                 <input name="companyName" type="text" defaultValue={initialDraft.companyName} />
               </Field>
@@ -390,25 +390,14 @@ function Dangtintuyendung() {
 
 
 
-          <div className="action-row" aria-label="Hành động cuối trang">
-          {submitError ? (
-            <div className="form-notice form-notice-error" role="alert">
-              {submitError}
-            </div>
-          ) : null}
-          {submitSuccess ? (
-            <div className="form-notice form-notice-success" role="status">
-              {submitSuccess}
-            </div>
-          ) : null}
-
-            <button className="btn btn-primary" type="button" onClick={handlePreview}>
+          <div className={styles['action-row']} aria-label="Hành động cuối trang">
+            <button className={styles['btn btn-primary']} type="button" onClick={handlePreview}>
               Xem trước
             </button>
-            <button className="btn btn-success" type="button" onClick={handlePublish} disabled={isSubmitting}>
-              {isSubmitting ? 'Đang gửi...' : 'Đăng tin'}
+            <button className={styles['btn btn-success']} type="button" onClick={handlePublish}>
+              Đăng tin
             </button>
-            <button className="btn btn-danger" type="button" onClick={handleCancel}>
+            <button className={styles['btn btn-danger']} type="button" onClick={handleCancel}>
               Hủy
             </button>
           </div>

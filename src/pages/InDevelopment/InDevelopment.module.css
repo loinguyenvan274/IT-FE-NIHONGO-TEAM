@@ -1,0 +1,62 @@
+.in-development-page {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1rem;
+}
+
+.in-development-card {
+  width: min(720px, 100%);
+  border: 1px solid #d8e0ea;
+  border-radius: 20px;
+  padding: 2rem;
+  background: linear-gradient(145deg, #ffffff, #f5f9ff);
+  box-shadow: 0 24px 40px rgba(18, 39, 62, 0.12);
+}
+
+.in-development-eyebrow {
+  margin: 0;
+  letter-spacing: 0.2em;
+  font-size: 0.72rem;
+  color: #385573;
+  font-weight: 700;
+}
+
+.in-development-card h1 {
+  margin: 0.6rem 0 0.8rem;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  color: #12273e;
+}
+
+.in-development-card p {
+  margin: 0;
+  color: #334c67;
+  line-height: 1.6;
+}
+
+.in-development-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.in-dev-button {
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  border: 1px solid #c9d7e8;
+  color: #1b3550;
+  background: #ffffff;
+  font-weight: 600;
+}
+
+.in-dev-button.primary {
+  background: #0f7a55;
+  color: #ffffff;
+  border-color: #0f7a55;
+}
+
+.in-dev-button.ghost {
+  background: transparent;
+}

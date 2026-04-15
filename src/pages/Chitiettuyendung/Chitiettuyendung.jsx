@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES, buildInDevelopmentPath } from "../../constants/routes";
-import "./Chitiettuyendung.css";
+import styles from "./Chitiettuyendung.module.css";
 
 const defaultRecruitmentData = {
   title: "Tuyển dụng Lập trình viên Frontend",
@@ -50,54 +50,54 @@ function Chitiettuyendung() {
   };
 
   return (
-    <main className="chitiettuyendung-page">
-      <div className="chitiettuyendung-shell">
-        <header className="page-title-block">
+    <main className={styles['chitiettuyendung-page']}>
+      <div className={styles['chitiettuyendung-shell']}>
+        <header className={styles['page-title-block']}>
           <h1>{recruitmentData.title}</h1>
         </header>
 
-        <section className="recruitment-details">
-          <div className="detail-item">
+        <section className={styles['recruitment-details']}>
+          <div className={styles['detail-item']}>
             <strong>1. Tiêu đề tuyển dụng:</strong> {recruitmentData.title}
           </div>
-          <div className="detail-item">
+          <div className={styles['detail-item']}>
             <strong>2. Tên công việc:</strong> {recruitmentData.jobName}
           </div>
-          <div className="detail-item">
+          <div className={styles['detail-item']}>
             <strong>3. Tên công ty:</strong> {recruitmentData.companyName}
           </div>
-          <div className="detail-item">
+          <div className={styles['detail-item']}>
             <strong>4. Mức lương:</strong> {recruitmentData.salary}
           </div>
-          <div className="detail-item">
+          <div className={styles['detail-item']}>
             <strong>5. Địa điểm:</strong> {recruitmentData.location}
           </div>
-          <div className="detail-item">
+          <div className={styles['detail-item']}>
             <strong>6. Hình thức tuyển dụng:</strong>{" "}
             {recruitmentData.employmentType}
           </div>
-          <div className="detail-item">
+          <div className={styles['detail-item']}>
             <strong>7. Hạn nộp hồ sơ:</strong> {recruitmentData.deadline}
           </div>
-          <div className="detail-item">
+          <div className={styles['detail-item']}>
             <strong>8. Mô tả công việc:</strong> {recruitmentData.description}
           </div>
-          <div className="detail-item">
+          <div className={styles['detail-item']}>
             <strong>9. Yêu cầu tố chất:</strong> {recruitmentData.requirements}
           </div>
-          <div className="detail-item">
+          <div className={styles['detail-item']}>
             <strong>10. Quyền lợi:</strong> {recruitmentData.benefits}
           </div>
         </section>
 
-        <section className="actions">
-          <button className="edit-btn" type="button" onClick={handleEdit}>
+        <section className={styles['actions']}>
+          <button className={styles['edit-btn']} type="button" onClick={handleEdit}>
             11. Chỉnh sửa thông tin đăng tuyển
           </button>
-          <button className="delete-btn" type="button" onClick={handleDelete}>
+          <button className={styles['delete-btn']} type="button" onClick={handleDelete}>
             12. Xóa thông tin đăng tuyển
           </button>
-          <button className="edit-btn" type="button" onClick={handleViewCandidates}>
+          <button className={styles['edit-btn']} type="button" onClick={handleViewCandidates}>
             13. Xem danh sách ứng viên phù hợp
           </button>
         </section>
