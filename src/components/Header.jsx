@@ -182,7 +182,7 @@ export default function Header({ role, onRoleChange }) {
                 type="button"
                 className="icon-button"
                 aria-label="Tin nhắn"
-                onClick={() => navigate(buildInDevelopmentPath('chat'))}
+                onClick={() => navigate(ROUTES.CHAT)}
               >
                 <ChatIcon />
               </button>

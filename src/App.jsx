@@ -9,6 +9,7 @@ import Quanlyungvien from './pages/Quanlyungvien/Quanlyungvien';
 import Chitiethosoungvien from './pages/Chitiethosoungvien/Chitiethosoungvien';
 import InDevelopment from './pages/InDevelopment/InDevelopment';
 import EditJob from './pages/Chinhsuatintuyendung/EditJob';
+import Chat from './pages/Chat/Chat';
 import Header from './components/Header';
 import { getTestToken, setAuthToken } from './services/api';
 import { LEGACY_ROUTES, ROUTES, buildCandidateDetailPath, buildInDevelopmentPath } from './constants/routes';
@@ -51,6 +52,7 @@ function App() {
             <Route path={ROUTES.CANDIDATES} element={<Quanlyungvien />} />
             <Route path={ROUTES.CANDIDATE_DETAIL} element={<Chitiethosoungvien />} />
             <Route path={ROUTES.JOB_DETAIL} element={<Chitiettuyendung />} />
+            <Route path={ROUTES.CHAT} element={<Chat />} />
             <Route path={ROUTES.IN_DEVELOPMENT} element={<InDevelopment />} />
             <Route path={ROUTES.JOB_EDIT} element={<EditJob />} />
 

@@ -8,6 +8,7 @@ export const ROUTES = {
   MATCHING: '/man-hinh-matching',
   CANDIDATES: '/quan-ly-ung-vien',
   CANDIDATE_DETAIL: '/quan-ly-ung-vien/:id',
+  CHAT: '/chat',
   IN_DEVELOPMENT: '/in-development',
 };
 
