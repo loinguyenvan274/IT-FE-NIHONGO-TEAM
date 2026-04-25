@@ -111,6 +111,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to={ROUTES.HOME} replace />} />
 
+            <Route path={ROUTES.AUTH_LOGIN} element={<AuthLogin onAuthSuccess={setRole} />} />
+            <Route path={ROUTES.AUTH_REGISTER} element={<AuthRegister onAuthSuccess={setRole} />} />
+
             <Route path={ROUTES.JOB_POST} element={<Dangtintuyendung />} />
             <Route path={ROUTES.RECRUITMENT_LIST} element={<Danhsachtuyendung />} />
             <Route path={ROUTES.MATCHING} element={<Manhinhmatching />} />
