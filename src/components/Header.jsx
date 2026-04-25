@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ROUTES, buildInDevelopmentPath } from '../constants/routes';
+import { ROUTES, buildInDevelopmentPath, buildRegisterPath, REGISTER_ROLES } from '../constants/routes';
 import './Header.css';
 
 const ROLE_OPTIONS = [
@@ -123,7 +123,7 @@ export default function Header({ role, onRoleChange }) {
               <button
                 type="button"
                 className="ghost-action-button"
-                onClick={() => navigate(buildInDevelopmentPath('login'))}
+                onClick={() => navigate(ROUTES.AUTH_LOGIN)}
               >
                 Đăng nhập
               </button>
@@ -147,7 +147,7 @@ export default function Header({ role, onRoleChange }) {
                       className="dropdown-item"
                       onClick={() => {
                         setShowRegisterMenu(false);
-                        navigate(buildInDevelopmentPath('register'));
+                        navigate(buildRegisterPath(REGISTER_ROLES.CANDIDATE));
                       }}
                     >
                       Đăng ký Ứng viên
@@ -157,7 +157,7 @@ export default function Header({ role, onRoleChange }) {
                       className="dropdown-item"
                       onClick={() => {
                         setShowRegisterMenu(false);
-                        navigate(buildInDevelopmentPath('register'));
+                        navigate(buildRegisterPath(REGISTER_ROLES.EMPLOYER));
                       }}
                     >
                       Đăng ký Nhà tuyển dụng

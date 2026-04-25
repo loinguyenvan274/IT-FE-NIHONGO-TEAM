@@ -1,0 +1,243 @@
+.page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 14% 11%, rgba(67, 125, 161, 0.24), transparent 26%),
+    radial-gradient(circle at 87% 82%, rgba(131, 84, 23, 0.18), transparent 24%),
+    linear-gradient(180deg, #f8f9fc 0%, #edf1f6 70%, #e9eef4 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  display: grid;
+  align-items: center;
+  padding: 1.2rem 1rem 2rem;
+}
+
+.card {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  border-radius: 1.8rem;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 26px 58px rgba(20, 29, 42, 0.15);
+  padding: clamp(1.2rem, 2.4vw, 2.2rem);
+}
+
+.tabSwitch {
+  width: min(340px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  padding: 0.35rem;
+  border-radius: 9999px;
+  background: rgba(237, 238, 241, 0.88);
+}
+
+.tabSwitch button {
+  border: 0;
+  border-radius: 9999px;
+  min-height: 2.35rem;
+  background: transparent;
+  color: #4c616f;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tabActive {
+  background: linear-gradient(135deg, #236184 0%, #407a9e 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 16px rgba(35, 97, 132, 0.24);
+}
+
+.card h1 {
+  margin: 1rem 0 0;
+  text-align: center;
+  font-size: clamp(2rem, 4vw, 3.3rem);
+  line-height: 1.08;
+}
+
+.subtitle {
+  margin: 0.7rem auto 0;
+  text-align: center;
+  max-width: 58ch;
+  color: #4c616f;
+}
+
+.form {
+  margin-top: 1.4rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.form h2 {
+  margin: 0.45rem 0 0;
+  font-size: 1.15rem;
+  color: #1b3449;
+}
+
+.form label {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #36536a;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.form input,
+.form select {
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-text-base);
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 500;
+}
+
+.form input:focus,
+.form select:focus {
+  outline: none;
+  border-color: rgba(35, 97, 132, 0.45);
+  box-shadow: 0 0 0 3px rgba(35, 97, 132, 0.14);
+}
+
+.twoCols {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.skillRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.7rem;
+}
+
+.addSkillButton {
+  border: 1px solid #236184;
+  background: transparent;
+  color: #236184;
+  border-radius: 9999px;
+  min-height: 3rem;
+  min-width: 7.5rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.skillChips {
+  margin-top: -0.25rem;
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.skillChip {
+  border: 0;
+  border-radius: 9999px;
+  min-height: 2rem;
+  padding: 0 0.9rem;
+  background: rgba(67, 125, 161, 0.14);
+  color: #17496b;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.error {
+  color: #ba1a1a;
+  font-size: 0.8rem;
+  letter-spacing: normal;
+  text-transform: none;
+  font-weight: 600;
+}
+
+.actions {
+  margin-top: 0.65rem;
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 0.8rem;
+}
+
+.submitButton,
+.cancelButton {
+  border-radius: 9999px;
+  min-height: 3.25rem;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.submitButton {
+  border: 0;
+  color: #ffffff;
+  background: linear-gradient(135deg, #236184 0%, #407a9e 100%);
+  box-shadow: 0 14px 26px rgba(35, 97, 132, 0.24);
+}
+
+.cancelButton {
+  border: 1px solid rgba(113, 120, 126, 0.45);
+  background: rgba(255, 255, 255, 0.6);
+  color: #3c566d;
+}
+
+.submitButton:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.loginText {
+  margin: 1rem 0 0;
+  text-align: center;
+  color: #4c616f;
+}
+
+.loginLink {
+  border: 0;
+  background: transparent;
+  color: #236184;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.footer {
+  padding: 1rem 1.5rem 1.4rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  color: #6b7c8b;
+  font-size: 0.78rem;
+}
+
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.footerLinks button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .twoCols,
+  .actions {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    flex-direction: column;
+    text-align: center;
+  }
+}

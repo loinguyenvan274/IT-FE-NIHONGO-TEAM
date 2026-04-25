@@ -1,6 +1,8 @@
 export const ROUTES = {
   HOME: '/tim-kiem-cong-viec',
   JOB_SEARCH: '/tim-kiem-cong-viec',
+  AUTH_LOGIN: '/dang-nhap',
+  AUTH_REGISTER: '/dang-ky',
   RECRUITMENT_LIST: '/danh-sach-tuyen-dung',
   JOB_DETAIL: '/chi-tiet-tuyen-dung',
   JOB_POST: '/dang-tin-tuyen-dung',
@@ -24,6 +26,11 @@ export const LEGACY_ROUTES = {
   JOB_DETAIL: '/chitiettuyendung',
 };
 
+export const REGISTER_ROLES = {
+  CANDIDATE: 'candidate',
+  EMPLOYER: 'employer',
+};
+
 export function buildCandidateDetailPath(id) {
   return `${ROUTES.CANDIDATES}/${id}`;
 }
@@ -42,4 +49,10 @@ export function buildInDevelopmentPath(feature) {
 
 export function buildCompanyProfilePath(id) {
   return ROUTES.COMPANY_PROFILE.replace(':id', id);
+}
+
+export function buildRegisterPath(role = REGISTER_ROLES.CANDIDATE) {
+  const normalizedRole = role === REGISTER_ROLES.EMPLOYER ? REGISTER_ROLES.EMPLOYER : REGISTER_ROLES.CANDIDATE;
+  const query = new URLSearchParams({ role: normalizedRole });
+  return `${ROUTES.AUTH_REGISTER}?${query.toString()}`;
 }

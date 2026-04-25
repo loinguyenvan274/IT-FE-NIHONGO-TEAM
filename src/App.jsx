@@ -11,6 +11,8 @@ import InDevelopment from './pages/InDevelopment/InDevelopment';
 import EditJob from './pages/Chinhsuatintuyendung/EditJob';
 import CompanyProfile from './pages/Chitietcongty/CompanyProfile';
 import Chat from './pages/Chat/Chat';
+import AuthLogin from './pages/AuthLogin/AuthLogin';
+import AuthRegister from './pages/AuthRegister/AuthRegister';
 import Header from './components/Header';
 import { getTestToken, setAuthToken } from './services/api';
 import { LEGACY_ROUTES, ROUTES, buildCandidateDetailPath, buildInDevelopmentPath } from './constants/routes';
@@ -19,6 +21,48 @@ import './app.css';
 function LegacyCandidateRedirect() {
   const { id } = useParams();
   return <Navigate to={buildCandidateDetailPath(id)} replace />;
+}
+
+function AppRoutes({ role, onRoleChange, fallbackRoute }) {
+  return (
+    <div className="app-shell">
+      <Header role={role} onRoleChange={onRoleChange} />
+      <main className="app-content">
+        <Routes>
+          <Route path="/" element={<Navigate to={ROUTES.HOME} replace />} />
+
+          <Route path={ROUTES.AUTH_LOGIN} element={<AuthLogin />} />
+          <Route path={ROUTES.AUTH_REGISTER} element={<AuthRegister />} />
+
+          <Route path={ROUTES.JOB_POST} element={<Dangtintuyendung />} />
+          <Route path={ROUTES.RECRUITMENT_LIST} element={<Danhsachtuyendung />} />
+          <Route path={ROUTES.MATCHING} element={<Manhinhmatching />} />
+          <Route path={ROUTES.JOB_SEARCH} element={<Timkiemcongviec />} />
+          <Route path={ROUTES.CANDIDATES} element={<Quanlyungvien />} />
+          <Route path={ROUTES.CANDIDATE_DETAIL} element={<Chitiethosoungvien />} />
+          <Route path={ROUTES.JOB_DETAIL} element={<Chitiettuyendung />} />
+          <Route path={ROUTES.CHAT} element={<Chat />} />
+          <Route path={ROUTES.IN_DEVELOPMENT} element={<InDevelopment />} />
+          <Route path={ROUTES.JOB_EDIT} element={<EditJob />} />
+          <Route path={ROUTES.COMPANY_PROFILE} element={<CompanyProfile />} />
+
+          <Route path={LEGACY_ROUTES.JOB_POST} element={<Navigate to={ROUTES.JOB_POST} replace />} />
+          <Route
+            path={LEGACY_ROUTES.RECRUITMENT_LIST}
+            element={<Navigate to={ROUTES.RECRUITMENT_LIST} replace />}
+          />
+          <Route path={LEGACY_ROUTES.MATCHING} element={<Navigate to={ROUTES.MATCHING} replace />} />
+          <Route path={LEGACY_ROUTES.JOB_SEARCH} element={<Navigate to={ROUTES.JOB_SEARCH} replace />} />
+          <Route path={LEGACY_ROUTES.CANDIDATES} element={<Navigate to={ROUTES.CANDIDATES} replace />} />
+          <Route path={LEGACY_ROUTES.CANDIDATE_DETAIL} element={<LegacyCandidateRedirect />} />
+          <Route path={LEGACY_ROUTES.JOB_DETAIL_TEMP} element={<Navigate to={ROUTES.JOB_DETAIL} replace />} />
+          <Route path={LEGACY_ROUTES.JOB_DETAIL} element={<Navigate to={ROUTES.JOB_DETAIL} replace />} />
+
+          <Route path="*" element={<Navigate to={fallbackRoute} replace />} />
+        </Routes>
+      </main>
+    </div>
+  );
 }
 
 function App() {
@@ -40,40 +84,7 @@ function App() {
 
   return (
     <Router>
-      <div className="app-shell">
-        <Header role={role} onRoleChange={setRole} />
-        <main className="app-content">
-          <Routes>
-            <Route path="/" element={<Navigate to={ROUTES.HOME} replace />} />
-
-            <Route path={ROUTES.JOB_POST} element={<Dangtintuyendung />} />
-            <Route path={ROUTES.RECRUITMENT_LIST} element={<Danhsachtuyendung />} />
-            <Route path={ROUTES.MATCHING} element={<Manhinhmatching />} />
-            <Route path={ROUTES.JOB_SEARCH} element={<Timkiemcongviec />} />
-            <Route path={ROUTES.CANDIDATES} element={<Quanlyungvien />} />
-            <Route path={ROUTES.CANDIDATE_DETAIL} element={<Chitiethosoungvien />} />
-            <Route path={ROUTES.JOB_DETAIL} element={<Chitiettuyendung />} />
-            <Route path={ROUTES.CHAT} element={<Chat />} />
-            <Route path={ROUTES.IN_DEVELOPMENT} element={<InDevelopment />} />
-            <Route path={ROUTES.JOB_EDIT} element={<EditJob />} />
-            <Route path={ROUTES.COMPANY_PROFILE} element={<CompanyProfile />} />
-
-            <Route path={LEGACY_ROUTES.JOB_POST} element={<Navigate to={ROUTES.JOB_POST} replace />} />
-            <Route
-              path={LEGACY_ROUTES.RECRUITMENT_LIST}
-              element={<Navigate to={ROUTES.RECRUITMENT_LIST} replace />}
-            />
-            <Route path={LEGACY_ROUTES.MATCHING} element={<Navigate to={ROUTES.MATCHING} replace />} />
-            <Route path={LEGACY_ROUTES.JOB_SEARCH} element={<Navigate to={ROUTES.JOB_SEARCH} replace />} />
-            <Route path={LEGACY_ROUTES.CANDIDATES} element={<Navigate to={ROUTES.CANDIDATES} replace />} />
-            <Route path={LEGACY_ROUTES.CANDIDATE_DETAIL} element={<LegacyCandidateRedirect />} />
-            <Route path={LEGACY_ROUTES.JOB_DETAIL_TEMP} element={<Navigate to={ROUTES.JOB_DETAIL} replace />} />
-            <Route path={LEGACY_ROUTES.JOB_DETAIL} element={<Navigate to={ROUTES.JOB_DETAIL} replace />} />
-
-            <Route path="*" element={<Navigate to={fallbackRoute} replace />} />
-          </Routes>
-        </main>
-      </div>
+      <AppRoutes role={role} onRoleChange={setRole} fallbackRoute={fallbackRoute} />
     </Router>
   );
 }
