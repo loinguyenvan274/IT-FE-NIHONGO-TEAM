@@ -163,7 +163,7 @@ function Timkiemcongviec() {
           <button
             className={styles['job-login']}
             type="button"
-            onClick={() => navigate(buildInDevelopmentPath('login'))}
+            onClick={() => navigate(ROUTES.AUTH_LOGIN)}
           >
             Đăng nhập
           </button>
