@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES, buildRegisterPath } from '../../constants/routes';
+import { fetchCurrentUser, loginUser, mapBeRoleToFeRole, setStoredUserRole } from '../../services/api';
 import styles from './AuthLogin.module.css';
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-export default function AuthLogin() {
+export default function AuthLogin({ onAuthSuccess = () => {} }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
@@ -16,6 +17,7 @@ export default function AuthLogin() {
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   function onChange(event) {
     const { name, value, type, checked } = event.target;
@@ -23,6 +25,7 @@ export default function AuthLogin() {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
+    setSubmitError('');
 
     setErrors((prev) => {
       if (!prev[name]) {
@@ -62,9 +65,22 @@ export default function AuthLogin() {
     }
 
     setIsSubmitting(true);
+    setSubmitError('');
 
     try {
+      await loginUser({
+        email: formData.email.trim(),
+        password: formData.password,
+      });
+
+      const me = await fetchCurrentUser();
+      const nextRole = mapBeRoleToFeRole(me?.vai_tro);
+      setStoredUserRole(nextRole);
+      onAuthSuccess(nextRole);
+
       navigate(ROUTES.JOB_SEARCH);
+    } catch (error) {
+      setSubmitError(error?.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
     } finally {
       setIsSubmitting(false);
     }
@@ -129,6 +145,7 @@ export default function AuthLogin() {
             <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
               {isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
             </button>
+            {submitError ? <p className={styles.error}>{submitError}</p> : null}
           </form>
 
           <div className={styles.registerLine}>

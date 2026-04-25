@@ -14,7 +14,14 @@ import Chat from './pages/Chat/Chat';
 import AuthLogin from './pages/AuthLogin/AuthLogin';
 import AuthRegister from './pages/AuthRegister/AuthRegister';
 import Header from './components/Header';
-import { getTestToken, setAuthToken } from './services/api';
+import {
+  fetchCurrentUser,
+  getStoredUserRole,
+  getTestToken,
+  mapBeRoleToFeRole,
+  setAuthToken,
+  setStoredUserRole,
+} from './services/api';
 import { LEGACY_ROUTES, ROUTES, buildCandidateDetailPath, buildInDevelopmentPath } from './constants/routes';
 import './app.css';
 
@@ -31,8 +38,8 @@ function AppRoutes({ role, onRoleChange, fallbackRoute }) {
         <Routes>
           <Route path="/" element={<Navigate to={ROUTES.HOME} replace />} />
 
-          <Route path={ROUTES.AUTH_LOGIN} element={<AuthLogin />} />
-          <Route path={ROUTES.AUTH_REGISTER} element={<AuthRegister />} />
+          <Route path={ROUTES.AUTH_LOGIN} element={<AuthLogin onAuthSuccess={onRoleChange} />} />
+          <Route path={ROUTES.AUTH_REGISTER} element={<AuthRegister onAuthSuccess={onRoleChange} />} />
 
           <Route path={ROUTES.JOB_POST} element={<Dangtintuyendung />} />
           <Route path={ROUTES.RECRUITMENT_LIST} element={<Danhsachtuyendung />} />
@@ -66,18 +73,31 @@ function AppRoutes({ role, onRoleChange, fallbackRoute }) {
 }
 
 function App() {
-  const [role, setRole] = useState('guest');
+  const [role, setRole] = useState(getStoredUserRole());
 
   useEffect(() => {
-    // Initialize test token on app startup for demo mode
-    async function initializeTestToken() {
-      const token = await getTestToken();
-      if (token) {
-        setAuthToken(token);
+    async function initializeAuthSession() {
+      const enableTestToken = import.meta.env.VITE_ENABLE_TEST_TOKEN === 'true';
+
+      if (enableTestToken) {
+        const token = await getTestToken();
+        if (token) {
+          setAuthToken(token);
+        }
+      }
+
+      try {
+        const me = await fetchCurrentUser();
+        const nextRole = mapBeRoleToFeRole(me?.vai_tro);
+        setRole(nextRole);
+        setStoredUserRole(nextRole);
+      } catch {
+        setRole('guest');
+        setStoredUserRole('guest');
       }
     }
 
-    initializeTestToken();
+    initializeAuthSession();
   }, []);
 
   const fallbackRoute = buildInDevelopmentPath('404');

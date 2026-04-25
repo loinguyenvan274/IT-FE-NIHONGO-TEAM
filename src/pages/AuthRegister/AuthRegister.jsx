@@ -1,6 +1,15 @@
 import { useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { REGISTER_ROLES, ROUTES } from '../../constants/routes';
+import {
+  createCandidateProfile,
+  createCompanyProfile,
+  fetchCurrentUser,
+  loginUser,
+  mapBeRoleToFeRole,
+  registerUser,
+  setStoredUserRole,
+} from '../../services/api';
 import styles from './AuthRegister.module.css';
 
 const CANDIDATE_DEFAULTS = {
@@ -15,6 +24,9 @@ const CANDIDATE_DEFAULTS = {
 
 const EMPLOYER_DEFAULTS = {
   companyName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
   industry: '',
   representative: '',
   address: '',
@@ -31,7 +43,7 @@ function isValidPhone(phone) {
   return /^[0-9\s+()-]{9,15}$/.test(phone.trim());
 }
 
-export default function AuthRegister() {
+export default function AuthRegister({ onAuthSuccess = () => {} }) {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [candidateData, setCandidateData] = useState(CANDIDATE_DEFAULTS);
@@ -39,6 +51,7 @@ export default function AuthRegister() {
   const [employerData, setEmployerData] = useState(EMPLOYER_DEFAULTS);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const activeRole = useMemo(() => {
     return searchParams.get('role') === REGISTER_ROLES.EMPLOYER ? REGISTER_ROLES.EMPLOYER : REGISTER_ROLES.CANDIDATE;
@@ -52,6 +65,7 @@ export default function AuthRegister() {
   function onCandidateChange(event) {
     const { name, value } = event.target;
     setCandidateData((prev) => ({ ...prev, [name]: value }));
+    setSubmitError('');
     setErrors((prev) => {
       if (!prev[name]) {
         return prev;
@@ -65,6 +79,7 @@ export default function AuthRegister() {
   function onEmployerChange(event) {
     const { name, value } = event.target;
     setEmployerData((prev) => ({ ...prev, [name]: value }));
+    setSubmitError('');
     setErrors((prev) => {
       if (!prev[name]) {
         return prev;
@@ -142,6 +157,24 @@ export default function AuthRegister() {
       nextErrors.companyName = 'Vui lòng nhập tên công ty.';
     }
 
+    if (!employerData.email.trim()) {
+      nextErrors.email = 'Vui lòng nhập email đăng ký.';
+    } else if (!isValidEmail(employerData.email.trim())) {
+      nextErrors.email = 'Email chưa đúng định dạng.';
+    }
+
+    if (!employerData.password.trim()) {
+      nextErrors.password = 'Vui lòng nhập mật khẩu.';
+    } else if (employerData.password.trim().length < 6) {
+      nextErrors.password = 'Mật khẩu cần tối thiểu 6 ký tự.';
+    }
+
+    if (!employerData.confirmPassword.trim()) {
+      nextErrors.confirmPassword = 'Vui lòng nhập xác nhận mật khẩu.';
+    } else if (employerData.confirmPassword !== employerData.password) {
+      nextErrors.confirmPassword = 'Mật khẩu xác nhận chưa trùng khớp.';
+    }
+
     if (!employerData.industry.trim()) {
       nextErrors.industry = 'Vui lòng chọn lĩnh vực kinh doanh.';
     }
@@ -169,9 +202,52 @@ export default function AuthRegister() {
     }
 
     setIsSubmitting(true);
+    setSubmitError('');
 
     try {
-      navigate(ROUTES.AUTH_LOGIN);
+      const role = activeRole === REGISTER_ROLES.CANDIDATE ? 'candidate' : 'employer';
+      const registerEmail =
+        activeRole === REGISTER_ROLES.CANDIDATE ? candidateData.email.trim() : employerData.email.trim();
+      const registerPassword =
+        activeRole === REGISTER_ROLES.CANDIDATE ? candidateData.password : employerData.password;
+
+      await registerUser({
+        email: registerEmail,
+        password: registerPassword,
+        role,
+      });
+
+      await loginUser({
+        email: registerEmail,
+        password: registerPassword,
+      });
+
+      const me = await fetchCurrentUser();
+
+      if (activeRole === REGISTER_ROLES.CANDIDATE) {
+        await createCandidateProfile({
+          ho_ten: candidateData.fullName.trim(),
+          so_dien_thoai: candidateData.phone.trim(),
+          ky_nang: candidateSkills.join(', '),
+          location: candidateData.location.trim(),
+          vi_tri_mong_muon: candidateSkills[0] || null,
+        });
+      } else {
+        await createCompanyProfile({
+          ten_cong_ty: employerData.companyName.trim(),
+          linh_vuc: employerData.industry.trim(),
+          lien_he: employerData.representative.trim(),
+          dia_chi: employerData.address.trim(),
+        });
+      }
+
+      const nextRole = mapBeRoleToFeRole(me?.vai_tro);
+      setStoredUserRole(nextRole);
+      onAuthSuccess(nextRole);
+
+      navigate(ROUTES.JOB_SEARCH);
+    } catch (error) {
+      setSubmitError(error?.message || 'Đăng ký thất bại. Vui lòng thử lại.');
     } finally {
       setIsSubmitting(false);
     }
@@ -311,6 +387,43 @@ export default function AuthRegister() {
 
                 <div className={styles.twoCols}>
                   <label>
+                    Email đăng ký
+                    <input
+                      name="email"
+                      value={employerData.email}
+                      onChange={onEmployerChange}
+                      placeholder="company@email.com"
+                    />
+                    {errors.email ? <span className={styles.error}>{errors.email}</span> : null}
+                  </label>
+
+                  <label>
+                    Mật khẩu
+                    <input
+                      type="password"
+                      name="password"
+                      value={employerData.password}
+                      onChange={onEmployerChange}
+                      placeholder="••••••••"
+                    />
+                    {errors.password ? <span className={styles.error}>{errors.password}</span> : null}
+                  </label>
+                </div>
+
+                <label>
+                  Xác nhận mật khẩu
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    value={employerData.confirmPassword}
+                    onChange={onEmployerChange}
+                    placeholder="••••••••"
+                  />
+                  {errors.confirmPassword ? <span className={styles.error}>{errors.confirmPassword}</span> : null}
+                </label>
+
+                <div className={styles.twoCols}>
+                  <label>
                     Lĩnh vực kinh doanh
                     <select name="industry" value={employerData.industry} onChange={onEmployerChange}>
                       <option value="">Chọn lĩnh vực</option>
@@ -360,6 +473,7 @@ export default function AuthRegister() {
                 Hủy bỏ
               </button>
             </div>
+            {submitError ? <span className={styles.error}>{submitError}</span> : null}
           </form>
 
           <p className={styles.loginText}>
