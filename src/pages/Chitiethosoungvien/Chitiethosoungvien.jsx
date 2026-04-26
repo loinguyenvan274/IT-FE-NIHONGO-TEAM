@@ -11,6 +11,7 @@ const MOCK_PROFILE = {
   full_name: 'Nguyễn Văn An',
   avatar_url: DEFAULT_AVATAR,
   phone_number: '+84 90 123 4567',
+  email: 'nguyen.van.a@example.com',
   location: 'Hồ Chí Minh, Việt Nam',
   headline: 'Senior Software Engineer',
   overview:
@@ -71,6 +72,7 @@ function normalizeCandidateProfile(payload) {
     full_name: payload.full_name || payload.ho_ten || payload.name || MOCK_PROFILE.full_name,
     avatar_url: payload.avatar_url || payload.avatar || MOCK_PROFILE.avatar_url,
     phone_number: payload.phone_number || payload.so_dien_thoai || MOCK_PROFILE.phone_number,
+    email: payload.email || payload.thu_dien_tu || payload.gmail || MOCK_PROFILE.email,
     location: payload.location || payload.vi_tri_mong_muon || MOCK_PROFILE.location,
     skills: Array.isArray(payload.skills)
       ? payload.skills
@@ -124,6 +126,10 @@ function Chitiethosoungvien() {
                 <li>
                   <span>☎</span>
                   <strong>{profile.phone_number}</strong>
+                </li>
+                <li>
+                  <span>✉</span>
+                  <strong>{profile.email}</strong>
                 </li>
                 <li>
                   <span>⌖</span>

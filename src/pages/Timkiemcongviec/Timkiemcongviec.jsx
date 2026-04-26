@@ -6,12 +6,6 @@ import { ROUTES, buildInDevelopmentPath } from '../../constants/routes';
 import styles from './Timkiemcongviec.module.css';
 import danangImage from './danang.jpg';
 
-const navItems = [
-  { label: 'Việc làm', to: ROUTES.JOB_SEARCH },
-  { label: 'Doanh nghiệp', to: buildInDevelopmentPath('companies') },
-  { label: 'Về chúng tôi', to: buildInDevelopmentPath('about') },
-];
-
 const jobSuggestions = [
   {
     title: 'Giám đốc Chiến lược Cấp cao',
@@ -134,42 +128,6 @@ function Timkiemcongviec() {
 
   return (
     <div className={styles['job-search-page']}>
-      <header className={styles['job-topbar']}>
-        <div className={styles['job-brand']}>
-          <strong>Executive Curator</strong>
-        </div>
-
-        <nav className={styles['job-nav']} aria-label="Điều hướng chính">
-          {navItems.map((item, index) => (
-            <button
-              className={`${styles['job-nav-link']} ${index === 0 ? 'is-active' : ''}`}
-              type="button"
-              onClick={() => navigate(item.to)}
-              key={item.label}
-            >
-              {item.label}
-            </button>
-          ))}
-        </nav>
-
-        <div className={styles['job-actions']}>
-          <div className={styles['job-lang']} aria-label="Chọn ngôn ngữ">
-            <button type="button">EN</button>
-            <button className={styles['is-active']} type="button">
-              VN
-            </button>
-            <button type="button">JP</button>
-          </div>
-          <button
-            className={styles['job-login']}
-            type="button"
-            onClick={() => navigate(ROUTES.AUTH_LOGIN)}
-          >
-            Đăng nhập
-          </button>
-        </div>
-      </header>
-
       <main className={styles['job-page']}>
         <section className={styles['hero-section']}>
           <div className={styles['hero-copy']}>

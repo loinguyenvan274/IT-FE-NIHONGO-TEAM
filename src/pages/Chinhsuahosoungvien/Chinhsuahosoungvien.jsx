@@ -1,6 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { buildInDevelopmentPath } from '../../constants/routes';
 import styles from './Chinhsuahosoungvien.module.css';
 
 const DEFAULT_AVATAR =
@@ -10,6 +9,7 @@ const MOCK_PROFILE = {
   candidate_id: 1024,
   full_name: 'Nguyễn Văn An',
   avatar_url: DEFAULT_AVATAR,
+  email: 'nguyen.van.a@example.com',
   phone_number: '+84 90 123 4567',
   location: 'Hồ Chí Minh, Việt Nam',
   headline: 'Senior Software Engineer',
@@ -49,7 +49,9 @@ const MOCK_PROFILE = {
 function Chinhsuahosoungvien() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    avatar_url: MOCK_PROFILE.avatar_url,
     full_name: MOCK_PROFILE.full_name,
+    email: MOCK_PROFILE.email,
     phone_number: MOCK_PROFILE.phone_number,
     location: MOCK_PROFILE.location,
     overview: MOCK_PROFILE.overview,
@@ -181,7 +183,7 @@ function Chinhsuahosoungvien() {
       <div className={styles['edit-profile-shell']}>
         <div className={styles['page-header']}>
           <div>
-            <p className={styles['breadcrumb']}>Hộ sơ của tôi &gt; Chỉnh sửa hồ sơ</p>
+            <p className={styles['breadcrumb']}>Hồ sơ của tôi &gt; Chỉnh sửa hồ sơ</p>
             <h1>Chỉnh sửa hồ sơ</h1>
           </div>
           <div className={styles['header-actions']}>
@@ -241,6 +243,18 @@ function Chinhsuahosoungvien() {
                   value={formData.location}
                   onChange={handleInputChange}
                   placeholder="Hồ Chí Minh, Việt Nam"
+                />
+              </div>
+
+              <div className={styles['form-group']}>
+                <label htmlFor="email">Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="nguyen.van.a@example.com"
                 />
               </div>
 

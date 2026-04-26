@@ -120,6 +120,7 @@ function App() {
             <Route path={ROUTES.JOB_SEARCH} element={<Timkiemcongviec />} />
             <Route path={ROUTES.CANDIDATES} element={<Quanlyungvien />} />
             <Route path={ROUTES.CANDIDATE_DETAIL} element={<Chitiethosoungvien />} />
+            <Route path={ROUTES.CANDIDATE_PROFILE} element={<Chitiethosoungvien />} />
             <Route path={ROUTES.CANDIDATE_EDIT} element={<Chinhsuahosoungvien />} />
             <Route path={ROUTES.JOB_DETAIL} element={<Chitiettuyendung />} />
             <Route path={ROUTES.CHAT} element={<Chat />} />

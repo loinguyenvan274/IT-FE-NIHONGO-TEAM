@@ -76,8 +76,8 @@ export default function Header({ role, onRoleChange }) {
   const accountMenuItems =
     role === 'candidate'
       ? [
-          { label: 'Hồ sơ của tôi', to: buildInDevelopmentPath('profile') },
-          { label: 'Điều chỉnh thông tin cá nhân', to: buildInDevelopmentPath('settings') },
+          { label: 'Hồ sơ của tôi', to: ROUTES.CANDIDATE_PROFILE },
+          { label: 'Điều chỉnh thông tin cá nhân', to: ROUTES.CANDIDATE_EDIT },
           { label: 'Đăng xuất', to: ROUTES.JOB_SEARCH, onClick: handleLogout },
         ]
       : [
