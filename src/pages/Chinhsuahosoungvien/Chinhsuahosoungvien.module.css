@@ -131,6 +131,16 @@
   border-color: #ccc;
 }
 
+.avatar-file-input {
+  display: none;
+}
+
+.avatar-hint {
+  margin: 0.65rem 0 0;
+  color: #697386;
+  font-size: 0.78rem;
+}
+
 .info-section {
   background: white;
   border-radius: 0.5rem;
