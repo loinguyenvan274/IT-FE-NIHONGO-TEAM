@@ -1,83 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Thongtincongty.module.css";
+import { fetchCompanyProfile } from "../../services/api";
 
 const Thongtincongty = () => {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [companyInfo, setCompanyInfo] = useState({
-    name: "Công ty Công nghệ ABC",
-    industry: "Phát triển phần mềm",
-    location: "Hà Nội, Việt Nam",
-    founded: "2015",
-    employees: "200+",
-    headquarters: "Tòa nhà Innovation, Cầu Giấy",
-    bio: "Chúng tôi là một công ty công nghệ hàng đầu chuyên cung cấp các giải pháp chuyển đổi số cho doanh nghiệp. Với đội ngũ kỹ sư tài năng, ABC Tech cam kết mang lại giá trị tốt nhất cho khách hàng thông qua các sản phẩm sáng tạo và dịch vụ chuyên nghiệp.",
-    ceo: "Nguyễn Văn A",
-    projects: [
-      {
-        id: 1,
-        name: "Hệ thống Quản lý Nhân sự SmartHR",
-        status: "Đang triển khai",
-      },
-      { id: 2, name: "Ứng dụng E-commerce GlobalShop", status: "Hoàn thành" },
-      {
-        id: 3,
-        name: "Nền tảng AI Phân tích Dữ liệu",
-        status: "Đang phát triển",
-      },
-    ],
+    name: "",
+    industry: "",
+    location: "",
+    founded: "",
+    employees: "",
+    headquarters: "",
+    bio: "",
+    ceo: "",
+    projects: [],
+    email: "",
+    phone: "",
   });
 
   const toggleSidebar = () => setSidebarCollapsed(!isSidebarCollapsed);
 
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const data = await fetchCompanyProfile();
+        const projects = data.cac_du_an
+          ? data.cac_du_an.split("\n").map((line, index) => {
+              const parts = line.split(": ");
+              return {
+                id: index + 1,
+                name: parts[0] ? parts[0].trim() : line.trim(),
+                status: parts[1] ? parts[1].trim() : "Hoàn thành",
+              };
+            })
+          : [];
+        const contactLines = data.thong_tin_lien_he
+          ? data.thong_tin_lien_he.split("\n")
+          : [];
+        const email =
+          contactLines
+            .find((line) => line.startsWith("Email:"))
+            ?.split(": ")[1] || "";
+        const phone =
+          contactLines
+            .find((line) => line.startsWith("Phone:"))
+            ?.split(": ")[1] || "";
+        setCompanyInfo({
+          name: data.ten_cong_ty || "",
+          industry: data.linh_vuc || "",
+          location: data.dia_chi || "",
+          founded: data.nam_thanh_lap || "",
+          employees: data.so_luong_nhan_vien || "",
+          headquarters: data.tru_so_chinh || "",
+          bio: data.gioi_thieu || "",
+          ceo: "", // not provided in response
+          projects,
+          email,
+          phone,
+        });
+      } catch (error) {
+        console.error("Failed to fetch company profile:", error);
+      }
+    };
+    loadData();
+  }, []);
+
   return (
     <div className={styles.container}>
-      {/* 3. Sidebar */}
-      <aside
-        className={`${styles.sidebar} ${isSidebarCollapsed ? styles.collapsed : ""}`}
-      >
-        <div className={styles.sidebarHeader}>
-          {!isSidebarCollapsed && (
-            <span style={{ fontWeight: "bold" }}>Tên Công ty</span>
-          )}
-          <button
-            onClick={toggleSidebar}
-            style={{ border: "none", background: "none", cursor: "pointer" }}
-          >
-            {isSidebarCollapsed ? "→" : "←"}
-          </button>
-        </div>
-        <div className={styles.sidebarMenu}>
-          <div className={styles.menuItem}>
-            <span className={styles.menuIcon}>👤</span>
-            {!isSidebarCollapsed && <span>Dashboard</span>}
-          </div>
-          <div className={styles.menuItem}>
-            <span className={styles.menuIcon}>👥</span>
-            {!isSidebarCollapsed && <span>Team Management</span>}
-          </div>
-          <div className={styles.menuItem}>
-            <span className={styles.menuIcon}>🏢</span>
-            {!isSidebarCollapsed && <span>Department</span>}
-          </div>
-        </div>
-      </aside>
-
       <main className={styles.mainContent}>
-        {/* 2. Top Navigation */}
-        <nav className={styles.topNav}>
-          <div className={styles.navLinks}>
-            <button className={styles.navBtn}>Home</button>
-            <button className={styles.navBtn}>Home</button>
-            <button className={styles.navBtn}>Home</button>
-          </div>
-          <div className={styles.navActions}>
-            <span>16:04 PM</span>
-            <span className={styles.actionIcon}>🔍</span>
-            <span className={styles.actionIcon}>🔔</span>
-            <span className={styles.actionIcon}>👤</span>
-          </div>
-        </nav>
-
         <div className={styles.contentBody}>
           {/* 4. Basic Info & Profile Header */}
           <section className={styles.profileHeaderCard}>
@@ -152,11 +142,16 @@ const Thongtincongty = () => {
                   <span className={styles.contactLabel}>CEO</span>
                   <span className={styles.contactValue}>{companyInfo.ceo}</span>
                 </div>
-                {/* Additional contact placeholders */}
                 <div className={styles.contactDetail}>
                   <span className={styles.contactLabel}>Email liên hệ</span>
                   <span className={styles.contactValue}>
-                    contact@abctech.com
+                    {companyInfo.email}
+                  </span>
+                </div>
+                <div className={styles.contactDetail}>
+                  <span className={styles.contactLabel}>Phone</span>
+                  <span className={styles.contactValue}>
+                    {companyInfo.phone}
                   </span>
                 </div>
               </div>
