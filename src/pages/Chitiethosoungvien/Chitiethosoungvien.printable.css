@@ -1,0 +1,203 @@
+/* Printable CSS for CV PDF Export */
+
+.cv-printable {
+  background-color: white;
+}
+
+.cv-printable-header {
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #1F4788;
+}
+
+.cv-printable-header h1 {
+  font-size: 24px;
+  color: #1F4788;
+  margin: 0 0 8px 0;
+  font-weight: 700;
+}
+
+.cv-printable-header .headline {
+  font-size: 13px;
+  color: #555;
+  margin: 4px 0;
+}
+
+.cv-printable-contact {
+  font-size: 11px;
+  color: #666;
+  margin: 8px 0 0 0;
+}
+
+.cv-printable-section {
+  margin-bottom: 16px;
+  page-break-inside: avoid;
+}
+
+.cv-printable-section h2 {
+  font-size: 13px;
+  color: #2C5AA0;
+  margin: 0 0 8px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #2C5AA0;
+  font-weight: 700;
+}
+
+.cv-printable-section p {
+  font-size: 11px;
+  line-height: 1.4;
+  margin: 0 0 6px 0;
+  color: #555;
+}
+
+.cv-printable-section ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.cv-printable-section li {
+  font-size: 11px;
+  line-height: 1.4;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.cv-skills-list {
+  font-size: 11px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.cv-project-item {
+  margin-bottom: 12px;
+  page-break-inside: avoid;
+}
+
+.cv-project-item h4 {
+  font-size: 11px;
+  margin: 0 0 4px 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.cv-project-item p {
+  font-size: 10px;
+  margin: 2px 0;
+  color: #555;
+}
+
+.cv-project-tags {
+  font-size: 10px;
+  color: #777;
+  font-style: italic;
+  margin: 4px 0;
+}
+
+.cv-project-link {
+  font-size: 10px;
+  color: #2C5AA0;
+  text-decoration: none;
+}
+
+.cv-project-link:hover {
+  text-decoration: underline;
+}
+
+.cv-education-item {
+  margin-bottom: 12px;
+  page-break-inside: avoid;
+}
+
+.cv-education-item h4 {
+  font-size: 11px;
+  margin: 0 0 4px 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.cv-education-item p {
+  font-size: 10px;
+  margin: 2px 0;
+  color: #555;
+}
+
+.cv-education-subtitle {
+  font-size: 10px;
+  color: #666;
+}
+
+.cv-education-period {
+  font-size: 10px;
+  color: #777;
+  font-style: italic;
+}
+
+.cv-certificate-list {
+  margin-top: 8px;
+  padding-left: 16px;
+}
+
+.cv-certificate-item {
+  font-size: 10px;
+  margin: 2px 0;
+  color: #555;
+}
+
+/* Print Styles */
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+  }
+
+  .cv-printable {
+    max-width: 8.5in;
+    margin: auto;
+    padding: 0.75in;
+  }
+
+  .cv-printable-section {
+    page-break-inside: avoid;
+  }
+
+  .cv-project-item,
+  .cv-education-item {
+    page-break-inside: avoid;
+  }
+
+  a {
+    text-decoration: underline;
+    color: black;
+  }
+
+  /* Hide non-printing elements */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Optimize spacing for print */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+
+  p {
+    page-break-inside: avoid;
+  }
+}
+
+/* Screen-specific styling */
+@media screen {
+  .cv-printable {
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+}

@@ -159,6 +159,54 @@
   font-weight: 600;
 }
 
+.itemsList {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.itemCard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) auto;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  background: rgba(237, 238, 241, 0.5);
+  border-radius: 0.8rem;
+  border: 1px solid rgba(113, 120, 126, 0.2);
+}
+
+.itemCard input,
+.itemCard textarea {
+  padding: 0.6rem;
+  border: 1px solid rgba(113, 120, 126, 0.3);
+  border-radius: 0.6rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.itemCard textarea {
+  grid-column: 1 / -1;
+  resize: vertical;
+  min-height: 2.5rem;
+}
+
+.removeButton {
+  border: 1px solid #ba1a1a;
+  background: transparent;
+  color: #ba1a1a;
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.85rem;
+  align-self: center;
+}
+
+.removeButton:hover {
+  background: rgba(186, 26, 26, 0.1);
+}
+
 .actions {
   margin-top: 0.65rem;
   display: grid;

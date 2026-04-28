@@ -2,11 +2,12 @@ import { useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { REGISTER_ROLES, ROUTES } from '../../constants/routes';
 import {
-  createCandidateProfile,
   createCompanyProfile,
   fetchCurrentUser,
+  fetchMyCandidateProfiles,
   loginUser,
   mapBeRoleToFeRole,
+  updateCandidateProfile,
   registerUser,
   setStoredUserRole,
 } from '../../services/api';
@@ -20,6 +21,11 @@ const CANDIDATE_DEFAULTS = {
   confirmPassword: '',
   location: '',
   skillInput: '',
+  gioi_thieu: '',
+  educationInput: '',
+  certificationInput: '',
+  languageInput: '',
+  projectInput: '',
 };
 
 const EMPLOYER_DEFAULTS = {
@@ -48,6 +54,10 @@ export default function AuthRegister({ onAuthSuccess = () => {} }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [candidateData, setCandidateData] = useState(CANDIDATE_DEFAULTS);
   const [candidateSkills, setCandidateSkills] = useState(['Chiến lược sản phẩm', 'React.js']);
+  const [education, setEducation] = useState([]);
+  const [certifications, setCertifications] = useState([]);
+  const [languages, setLanguages] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [employerData, setEmployerData] = useState(EMPLOYER_DEFAULTS);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -106,6 +116,82 @@ export default function AuthRegister({ onAuthSuccess = () => {} }) {
 
   function removeSkill(skill) {
     setCandidateSkills((prev) => prev.filter((item) => item !== skill));
+  }
+
+  function addEducation() {
+    if (candidateData.educationInput.trim()) {
+      setEducation((prev) => [...prev, { id: Date.now(), truong: '', nganh: candidateData.educationInput.trim(), nam_tot_nghiep: new Date().getFullYear() }]);
+      setCandidateData((prev) => ({ ...prev, educationInput: '' }));
+    }
+  }
+
+  function updateEducation(index, field, value) {
+    setEducation((prev) => {
+      const next = [...prev];
+      next[index] = { ...next[index], [field]: value };
+      return next;
+    });
+  }
+
+  function removeEducation(index) {
+    setEducation((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function addCertification() {
+    if (candidateData.certificationInput.trim()) {
+      setCertifications((prev) => [...prev, { id: Date.now(), ten_chung_chi: candidateData.certificationInput.trim(), nha_cap: '', nam_cap: new Date().getFullYear() }]);
+      setCandidateData((prev) => ({ ...prev, certificationInput: '' }));
+    }
+  }
+
+  function updateCertification(index, field, value) {
+    setCertifications((prev) => {
+      const next = [...prev];
+      next[index] = { ...next[index], [field]: value };
+      return next;
+    });
+  }
+
+  function removeCertification(index) {
+    setCertifications((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function addLanguage() {
+    if (candidateData.languageInput.trim()) {
+      setLanguages((prev) => [...prev, { id: Date.now(), ten_ngoai_ngu: candidateData.languageInput.trim(), tro_cap: '' }]);
+      setCandidateData((prev) => ({ ...prev, languageInput: '' }));
+    }
+  }
+
+  function updateLanguage(index, field, value) {
+    setLanguages((prev) => {
+      const next = [...prev];
+      next[index] = { ...next[index], [field]: value };
+      return next;
+    });
+  }
+
+  function removeLanguage(index) {
+    setLanguages((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function addProject() {
+    if (candidateData.projectInput.trim()) {
+      setProjects((prev) => [...prev, { id: Date.now(), ten_du_an: candidateData.projectInput.trim(), mo_ta: '', cong_nghe: '' }]);
+      setCandidateData((prev) => ({ ...prev, projectInput: '' }));
+    }
+  }
+
+  function updateProject(index, field, value) {
+    setProjects((prev) => {
+      const next = [...prev];
+      next[index] = { ...next[index], [field]: value };
+      return next;
+    });
+  }
+
+  function removeProject(index) {
+    setProjects((prev) => prev.filter((_, i) => i !== index));
   }
 
   function validateCandidate() {
@@ -211,10 +297,20 @@ export default function AuthRegister({ onAuthSuccess = () => {} }) {
       const registerPassword =
         activeRole === REGISTER_ROLES.CANDIDATE ? candidateData.password : employerData.password;
 
+      const profileData = activeRole === REGISTER_ROLES.CANDIDATE ? {
+        ho_ten: candidateData.fullName.trim(),
+        gioi_thieu: candidateData.gioi_thieu.trim(),
+        hoc_van: education.map(e => ({ truong: e.truong, nganh: e.nganh, nam_tot_nghiep: parseInt(e.nam_tot_nghiep) })),
+        chung_chi: certifications.map(c => ({ ten_chung_chi: c.ten_chung_chi, nha_cap: c.nha_cap, nam_cap: parseInt(c.nam_cap) })),
+        ngoai_ngu: languages.map(l => ({ ten_ngoai_ngu: l.ten_ngoai_ngu, tro_cap: l.tro_cap })),
+        du_an: projects.map(p => ({ ten_du_an: p.ten_du_an, mo_ta: p.mo_ta, cong_nghe: p.cong_nghe })),
+      } : {};
+
       await registerUser({
         email: registerEmail,
         password: registerPassword,
         role,
+        ...(activeRole === REGISTER_ROLES.CANDIDATE && { profileData }),
       });
 
       await loginUser({
@@ -225,13 +321,17 @@ export default function AuthRegister({ onAuthSuccess = () => {} }) {
       const me = await fetchCurrentUser();
 
       if (activeRole === REGISTER_ROLES.CANDIDATE) {
-        await createCandidateProfile({
-          ho_ten: candidateData.fullName.trim(),
-          so_dien_thoai: candidateData.phone.trim(),
-          ky_nang: candidateSkills.join(', '),
-          location: candidateData.location.trim(),
-          vi_tri_mong_muon: candidateSkills[0] || null,
-        });
+        const candidateProfiles = await fetchMyCandidateProfiles();
+        const candidateProfileId = candidateProfiles[0]?.ung_vien;
+
+        if (candidateProfileId) {
+          await updateCandidateProfile(candidateProfileId, {
+            so_dien_thoai: candidateData.phone.trim(),
+            ky_nang: candidateSkills.join(', '),
+            location: candidateData.location.trim(),
+            vi_tri_mong_muon: candidateSkills[0] || '',
+          });
+        }
       } else {
         await createCompanyProfile({
           ten_cong_ty: employerData.companyName.trim(),
@@ -371,6 +471,205 @@ export default function AuthRegister({ onAuthSuccess = () => {} }) {
                   ))}
                 </div>
                 {errors.skills ? <span className={styles.error}>{errors.skills}</span> : null}
+
+                <h2>04 Thông tin chuyên môn nâng cao (Tùy chọn)</h2>
+
+                <label>
+                  Giới thiệu về bạn
+                  <textarea
+                    name="gioi_thieu"
+                    value={candidateData.gioi_thieu}
+                    onChange={onCandidateChange}
+                    placeholder="Mô tả về kinh nghiệm và sở thích làm việc của bạn..."
+                    rows="3"
+                  />
+                </label>
+
+                <label>
+                  Học vấn
+                  <div className={styles.skillRow}>
+                    <input
+                      name="educationInput"
+                      value={candidateData.educationInput}
+                      onChange={onCandidateChange}
+                      placeholder="vd: Đại học Bách Khoa"
+                    />
+                    <button type="button" className={styles.addSkillButton} onClick={addEducation}>
+                      Thêm
+                    </button>
+                  </div>
+                </label>
+                {education.length > 0 && (
+                  <div className={styles.itemsList}>
+                    {education.map((edu, index) => (
+                      <div key={edu.id} className={styles.itemCard}>
+                        <input
+                          type="text"
+                          placeholder="Tên trường"
+                          value={edu.truong}
+                          onChange={(e) => updateEducation(index, 'truong', e.target.value)}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Ngành học"
+                          value={edu.nganh}
+                          onChange={(e) => updateEducation(index, 'nganh', e.target.value)}
+                        />
+                        <input
+                          type="number"
+                          placeholder="Năm tốt nghiệp"
+                          value={edu.nam_tot_nghiep}
+                          onChange={(e) => updateEducation(index, 'nam_tot_nghiep', e.target.value)}
+                        />
+                        <button
+                          type="button"
+                          className={styles.removeButton}
+                          onClick={() => removeEducation(index)}
+                        >
+                          Xóa
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <label>
+                  Chứng chỉ
+                  <div className={styles.skillRow}>
+                    <input
+                      name="certificationInput"
+                      value={candidateData.certificationInput}
+                      onChange={onCandidateChange}
+                      placeholder="vd: AWS Certified Solutions Architect"
+                    />
+                    <button type="button" className={styles.addSkillButton} onClick={addCertification}>
+                      Thêm
+                    </button>
+                  </div>
+                </label>
+                {certifications.length > 0 && (
+                  <div className={styles.itemsList}>
+                    {certifications.map((cert, index) => (
+                      <div key={cert.id} className={styles.itemCard}>
+                        <input
+                          type="text"
+                          placeholder="Tên chứng chỉ"
+                          value={cert.ten_chung_chi}
+                          onChange={(e) => updateCertification(index, 'ten_chung_chi', e.target.value)}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Nhà cấp"
+                          value={cert.nha_cap}
+                          onChange={(e) => updateCertification(index, 'nha_cap', e.target.value)}
+                        />
+                        <input
+                          type="number"
+                          placeholder="Năm cấp"
+                          value={cert.nam_cap}
+                          onChange={(e) => updateCertification(index, 'nam_cap', e.target.value)}
+                        />
+                        <button
+                          type="button"
+                          className={styles.removeButton}
+                          onClick={() => removeCertification(index)}
+                        >
+                          Xóa
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <label>
+                  Ngoại ngữ
+                  <div className={styles.skillRow}>
+                    <input
+                      name="languageInput"
+                      value={candidateData.languageInput}
+                      onChange={onCandidateChange}
+                      placeholder="vd: Tiếng Anh"
+                    />
+                    <button type="button" className={styles.addSkillButton} onClick={addLanguage}>
+                      Thêm
+                    </button>
+                  </div>
+                </label>
+                {languages.length > 0 && (
+                  <div className={styles.itemsList}>
+                    {languages.map((lang, index) => (
+                      <div key={lang.id} className={styles.itemCard}>
+                        <input
+                          type="text"
+                          placeholder="Tên ngoại ngữ"
+                          value={lang.ten_ngoai_ngu}
+                          onChange={(e) => updateLanguage(index, 'ten_ngoai_ngu', e.target.value)}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Trình độ (vd: B2, TOEIC 800)"
+                          value={lang.tro_cap}
+                          onChange={(e) => updateLanguage(index, 'tro_cap', e.target.value)}
+                        />
+                        <button
+                          type="button"
+                          className={styles.removeButton}
+                          onClick={() => removeLanguage(index)}
+                        >
+                          Xóa
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <label>
+                  Dự án
+                  <div className={styles.skillRow}>
+                    <input
+                      name="projectInput"
+                      value={candidateData.projectInput}
+                      onChange={onCandidateChange}
+                      placeholder="vd: Ứng dụng quản lý bán hàng"
+                    />
+                    <button type="button" className={styles.addSkillButton} onClick={addProject}>
+                      Thêm
+                    </button>
+                  </div>
+                </label>
+                {projects.length > 0 && (
+                  <div className={styles.itemsList}>
+                    {projects.map((proj, index) => (
+                      <div key={proj.id} className={styles.itemCard}>
+                        <input
+                          type="text"
+                          placeholder="Tên dự án"
+                          value={proj.ten_du_an}
+                          onChange={(e) => updateProject(index, 'ten_du_an', e.target.value)}
+                        />
+                        <textarea
+                          placeholder="Mô tả dự án"
+                          value={proj.mo_ta}
+                          onChange={(e) => updateProject(index, 'mo_ta', e.target.value)}
+                          rows="2"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Công nghệ sử dụng"
+                          value={proj.cong_nghe}
+                          onChange={(e) => updateProject(index, 'cong_nghe', e.target.value)}
+                        />
+                        <button
+                          type="button"
+                          className={styles.removeButton}
+                          onClick={() => removeProject(index)}
+                        >
+                          Xóa
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </>
             ) : (
               <>

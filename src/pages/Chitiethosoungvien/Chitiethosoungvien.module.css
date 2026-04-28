@@ -262,6 +262,12 @@
   font-size: 0.95rem;
 }
 
+.empty-note {
+  margin: 0.8rem 0 0;
+  color: #6f7d93;
+  font-size: 0.88rem;
+}
+
 .project-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -301,6 +307,19 @@
   color: #5d6d86;
   padding: 0.16rem 0.5rem;
   font-size: 0.72rem;
+}
+
+.project-link {
+  display: inline-block;
+  margin-top: 0.6rem;
+  color: #1f5ac0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.project-link:hover {
+  text-decoration: underline;
 }
 
 .timeline {
